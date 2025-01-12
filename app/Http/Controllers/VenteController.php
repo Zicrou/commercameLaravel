@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vente;
 use Illuminate\Http\Request;
 
 class VenteController extends Controller
@@ -16,9 +17,9 @@ class VenteController extends Controller
 
     public function create()
     {
-        $cour = new Vente();
-        return view('admin.cours.form', [
-            'cour' => new Vente(),
+        $vente = new Vente();
+        return view('ventes.create', [
+            'vente' => new Vente(),
         ]);
     }
 }
