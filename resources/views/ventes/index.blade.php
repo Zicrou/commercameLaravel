@@ -12,22 +12,49 @@
     </form>
 </div>
 
-<div class="container">
-    <div class="row">
-        <a href="{{ route('vente.create')}}" class="btn btn-primary col-md-3">Ajouter une vente</a>
-        {{-- @forelse ($ventes as $vente)
-            <div class="col-12 mb-4">
-                @include('vente.card')
-            </div>
-        @empty
-            <div class="col">
-                Aucune ventes ne correspond à votre recherche
-            </div>
-        @endforelse --}}
+<div class="">
+    <div class="">
+        <a href="{{ route('boutique.vente.create')}}" class="btn btn-primary col-md-3">Ajouter une vente</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Nombre</th>
+                    <th>Prix</th>
+                    <th>Total</th>
+                    <th>User</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ventes as $vente)
+                
+                    <tr>
+                        <td>{{ $vente->nom }}</td>
+                        <td>{{ $vente->nombre }}</td>
+                        <td>{{ $vente->prix }}</td>
+                        <td>{{ $total = $vente->prix * $vente->nombre }}</td>
+                        <td>{{ $vente->user->name }}</td>
+                        <td>
+                            <div class="d-flex gap-2 w-100 justify-content-end">
+                                <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
+                                {{-- @can('delete', $vente) --}}
+                                    <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-danger">Supprimer</button>
+                                    </form>
+                                {{-- @endcan --}}
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
 
 <div class="my-4">
-    {{-- {{ $ventes->links() }} --}}
+    {{ $ventes->links() }}
 </div>
 @endsection

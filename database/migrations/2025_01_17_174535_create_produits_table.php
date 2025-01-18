@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("titre");
             $table->integer("nombre");
             $table->integer("montant");
+            $table->boolean("etat");
             $table->timestamps();
         });
     }

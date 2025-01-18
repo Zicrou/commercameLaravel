@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProduitFormRequest;
 use App\Models\Produit;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class ProduitController extends Controller
@@ -23,8 +24,11 @@ class ProduitController extends Controller
      */
     public function create()
     {
+        
         return view('admin.produits.form', [
-            'produit' => new Produit()]);
+            'produit' => new Produit(),
+            'types' => Type::pluck('name', 'id'),
+        ]);
     }
 
     /**
@@ -33,6 +37,7 @@ class ProduitController extends Controller
     public function store(ProduitFormRequest $request)
     {
         $produit = Produit::create($request->validated());
+        $produit->types()->sync($request->validated('types'));
         return to_route('admin.produit.index')->with('success', 'Le produit a été créé');
     }
 
@@ -43,7 +48,9 @@ class ProduitController extends Controller
      */
     public function edit(Produit $produit)
     {
-        return view('admin.produits.form', ['produit' => $produit]);
+        return view('admin.produits.form', [
+            'produit' => $produit, 
+            'types' => Type::pluck('name', 'id'),]);
     }
 
     /**
@@ -52,6 +59,7 @@ class ProduitController extends Controller
     public function update(ProduitFormRequest $request, Produit $produit)
     {
         $produit->update($request->validated());
+        $produit->types()->sync($request->validated('types'));
         return to_route('admin.produit.index')->with('success', 'Le produit a été modifié');
 
     }

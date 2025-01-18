@@ -3,6 +3,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProduitController;
+use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\VenteController;
 
 Route::get('/', function () {
     return view('base');
@@ -13,5 +15,9 @@ Route::get('/', function () {
 
 Route::prefix('admin')->name('admin.')->group(function (){
     Route::resource('produit', ProduitController::class)->except(['show']);
+    Route::resource('type', TypeController::class)->except(['show']);
 });
-// Route::resource('produit', App\Http\Controllers\ProduitController::class)->except(['show']);
+
+Route::prefix('boutique')->name('boutique.')->group(function (){
+    Route::resource('vente', VenteController::class);
+});
