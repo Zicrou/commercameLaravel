@@ -22,4 +22,10 @@ class VenteController extends Controller
             'vente' => new Vente(),
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $vente = new Vente();
+        
+    }
 }
