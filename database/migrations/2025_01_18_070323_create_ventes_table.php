@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Produit;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
             $table->integer('nombre');
             $table->integer('prix');
+            $table->boolean("statut")->default(true);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Produit::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

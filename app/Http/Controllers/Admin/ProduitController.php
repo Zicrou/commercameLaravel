@@ -27,7 +27,7 @@ class ProduitController extends Controller
         
         return view('admin.produits.form', [
             'produit' => new Produit(),
-            'types' => Type::pluck('name', 'id'),
+            // 'types' => Type::pluck('name', 'id'),
         ]);
     }
 
@@ -37,7 +37,7 @@ class ProduitController extends Controller
     public function store(ProduitFormRequest $request)
     {
         $produit = Produit::create($request->validated());
-        $produit->types()->sync($request->validated('types'));
+        // $produit->types()->sync($request->validated('types'));
         return to_route('admin.produit.index')->with('success', 'Le produit a été créé');
     }
 
@@ -50,7 +50,8 @@ class ProduitController extends Controller
     {
         return view('admin.produits.form', [
             'produit' => $produit, 
-            'types' => Type::pluck('name', 'id'),]);
+            // 'types' => Type::pluck('name', 'id'),
+        ]);
     }
 
     /**
@@ -59,7 +60,7 @@ class ProduitController extends Controller
     public function update(ProduitFormRequest $request, Produit $produit)
     {
         $produit->update($request->validated());
-        $produit->types()->sync($request->validated('types'));
+        // $produit->types()->sync($request->validated('types'));
         return to_route('admin.produit.index')->with('success', 'Le produit a été modifié');
 
     }

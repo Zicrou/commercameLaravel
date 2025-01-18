@@ -23,11 +23,11 @@ class VenteFormRequest extends FormRequest
     {
         return [
             // 'produit' => ['required', 'exists:produits,id'],
-            'nom' => ['required', 'string', 'min:3'],
             'nombre' => ['required', 'integer', 'min:1'],
             'prix' => ['required', 'integer', 'min:3'],
             'user_id' => ['exists:users,id', 'required'],
-            // 'types' => ['array', 'exists:types,id', 'required'],
+            'produit_id' => ['exists:produits,id', 'required'],
+            'types' => ['array', 'exists:types,id', 'required'],
             // 'etat' => ['required', 'boolean'],
         ];
     }

@@ -34,10 +34,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function user(): HasMany
+    public function vente(): HasMany
     {
         return $this->hasMany(Vente::class);
     }
+    
     /**
      * Get the attributes that should be cast.
      *

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\VenteFormRequest;
+use App\Http\Requests\SearchPropertiesRequest;
+use App\Models\Produit;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\Vente;
@@ -14,9 +16,33 @@ class VenteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SearchPropertiesRequest $request)
     {
-        $ventes = Vente::orderBy('created_at', 'desc')->paginate(25);
+        $query = Vente::query()->orderBy('created_at', 'desc');
+		// dd($query->produit->titre);
+        if ($price = $request->validated('price')) {
+			$query->where('prix', '<=', $price);
+		}
+        if ($title = $request->validated('title')) {
+			// $query->where('produit_id', 'like', "%{$title}%");
+            $query->with('produit')->whereHas('produit', function ($query) use ($title) {
+                $query->where('titre', 'like', "%{$title}%");
+            });
+		}
+		// if ($surface = $request->validated('surface')) {
+		// 	$query->where('surface', '>=', $surface);
+		// }
+		// if ($rooms = $request->validated('rooms')) {
+		// 	$query->where('rooms', '>=', $rooms);
+		// }
+		
+
+        return view('ventes.index', [
+			'ventes' => $query->paginate(3),
+			'input'      => $request->validated(),
+		]);
+
+        $ventes = Vente::orderBy('created_at', 'desc')->paginate(1);
         return view("ventes.index",
     ["ventes" => $ventes ]);
     }
@@ -30,9 +56,11 @@ class VenteController extends Controller
         $vente->fill([
             'user_id' => User::first()->id,
         ]);
+        $produits = Produit::pluck('titre', 'id');
         return view('ventes.form', [
             'vente' => $vente,
-            //'types' => Type::pluck('name', 'id'),
+            'produits' => $produits,
+            'types' => Type::pluck('name', 'id'),
         ]);
     }
 
@@ -41,9 +69,8 @@ class VenteController extends Controller
      */
     public function store(VenteFormRequest $request)
     {
-        
         $vente = Vente::create($request->validated());
-        //$vente->types()->sync($request->validated('types'));
+        $vente->types()->sync($request->validated('types'));
         return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
     }
 
@@ -56,7 +83,9 @@ class VenteController extends Controller
     {
         return view('ventes.form', [
             'vente' => $vente, 
-            'types' => Type::pluck('name', 'id'),]);
+            'types' => Type::pluck('name', 'id'),
+            'produits' => Produit::pluck('titre', 'id'),
+        ]);
     }
 
     /**
@@ -65,7 +94,7 @@ class VenteController extends Controller
     public function update(VenteFormRequest $request, Vente $vente)
     {
         $vente->update($request->validated());
-        //$vente->types()->sync($request->validated('types'));
+        $vente->types()->sync($request->validated('types'));
         return to_route('boutique.vente.index')->with('success', 'La vente a été modifiée');
 
     }
@@ -75,7 +104,7 @@ class VenteController extends Controller
      */
     public function destroy(Vente $vente)
     {
-        $vente->delete();
+        $vente->$vente->update('statut', false);
         return to_route('boutique.vente.index')->with('success', 'La vente a été supprimée');
     }
 }

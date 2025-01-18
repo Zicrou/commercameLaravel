@@ -11,10 +11,10 @@
         
             <div class="col row mb-3">
                 @include('shared.input', ['class' => 'col', 'name' => 'titre', 'label' => 'Titre', 'value' => $produit->titre])
-                @include('shared.input', ['class' => 'col', 'name' => 'nombre', 'label' => 'Nombre', 'value' => $produit->nombre])
-                @include('shared.input', ['class' => 'col', 'name' => 'montant', 'label' => 'Montant', 'value' => $produit->montant])
+                @include('shared.input', ['class' => 'col', 'name' => 'nombre', 'label' => 'Nombre','type' => 'number', 'value' => $produit->nombre])
+                @include('shared.input', ['class' => 'col', 'name' => 'montant', 'label' => 'Montant', 'type' => 'number', 'value' => $produit->montant])
             </div>
-            @include('shared.select', ['name' => 'types', 'label' => 'Types', 'value' => $produit->types()->pluck('id'), 'multiple' => true])
+            {{-- @include('shared.select', ['name' => 'types', 'label' => 'Types', 'value' => $produit->types()->pluck('id'), 'multiple' => true]) --}}
             @include('shared.checkbox', ['name' => 'etat', 'label' => 'Etat normal', 'value' => $produit->etat])
 
             <div>

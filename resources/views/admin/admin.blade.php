@@ -71,7 +71,8 @@
     </div>
 
     <script>
-        new TomSelect('select[multiple]', {plugins: {remove_button: {title: 'supprimer'} } })
+      new TomSelect("#types[multiple]", {plugins: {remove_button: {title: 'Supprimer'}}}); 
+      new TomSelect("#produit_id", {plugins: {remove_button: {title: 'Supprimer'}}});
     </script>
 </body>
 </html>

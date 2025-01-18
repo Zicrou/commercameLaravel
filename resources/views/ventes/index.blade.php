@@ -19,6 +19,7 @@
             <thead>
                 <tr>
                     <th>Titre</th>
+                    <th>Types</th>
                     <th>Nombre</th>
                     <th>Prix</th>
                     <th>Total</th>
@@ -30,7 +31,15 @@
                 @foreach ($ventes as $vente)
                 
                     <tr>
-                        <td>{{ $vente->nom }}</td>
+                        <td>{{ $vente->produit->titre }}</td>
+                        <td class="bg-info">
+                            @foreach ( $vente->types as $type )
+                                <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
+                            @endforeach ()
+                                
+                                
+                            
+                        </td>
                         <td>{{ $vente->nombre }}</td>
                         <td>{{ $vente->prix }}</td>
                         <td>{{ $total = $vente->prix * $vente->nombre }}</td>
@@ -58,3 +67,4 @@
     {{ $ventes->links() }}
 </div>
 @endsection
+
