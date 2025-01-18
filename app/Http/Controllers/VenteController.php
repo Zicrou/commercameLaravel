@@ -4,7 +4,7 @@ namespace App\Http\Controllers;;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\VenteFormRequest;
-use App\Http\Requests\SearchPropertiesRequest;
+use App\Http\Requests\SearchVentesRequest;
 use App\Models\Produit;
 use App\Models\Type;
 use App\Models\User;
@@ -16,7 +16,7 @@ class VenteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(SearchPropertiesRequest $request)
+    public function index(SearchVentesRequest $request)
     {
         $query = Vente::query()->orderBy('created_at', 'desc');
 		// dd($query->produit->titre);
