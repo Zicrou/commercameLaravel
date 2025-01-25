@@ -32,12 +32,37 @@ class VenteController extends Controller
             });
 		}
         //  $totalOfTheDay = $query->sum("prix");
-         $totalOfTheDay = '';
+         $totalOfTheDay = 0;
+         $totalVenteOfTheDay= 0;
+         $totalReparationOfTheDay= 0;
+         $totalVenteEtReparationOfTheDay= 0;
+        $ventes = $query->get();
+        foreach ($ventes as $vente){
+            $total = $vente->prix * $vente->nombre;
+            $totalOfTheDay += $total;
+            $type_vente = $vente->types()->get();
+            foreach ($type_vente as $tv) {
+                // dd($tv->name);
+                if($tv->id == 1){
+                    $total = $vente->prix * $vente->nombre;
+                    $totalVenteOfTheDay += $total;
+                }elseif ($tv->id == 2) {
+                    $total = $vente->prix * $vente->nombre;
+                    $totalReparationOfTheDay += $total;
+                }elseif ($tv->id == 4) {
+                    $total = $vente->prix * $vente->nombre;
+                    $totalVenteEtReparationOfTheDay += $total;
+                }
+            }
+        }
 		
         return view('ventes.index', [
 			'ventes' => $query->paginate(3),
 			'input'      => $request->validated(),
-            'totalOfTheDay' => '',
+            'totalOfTheDay' => $totalOfTheDay,
+            'totalVenteOfTheDay' => $totalVenteOfTheDay,
+            'totalReparationOfTheDay' => $totalReparationOfTheDay,
+            'totalVenteEtReparationOfTheDay' => $totalVenteEtReparationOfTheDay,
 		]);
 
     //     $ventes = Vente::orderBy('created_at', 'desc')->paginate(1);
