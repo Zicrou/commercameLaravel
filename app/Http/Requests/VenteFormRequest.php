@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,7 +27,8 @@ class VenteFormRequest extends FormRequest
             'prix' => ['required', 'integer', 'min:3'],
             'user_id' => ['exists:users,id', 'required'],
             'produit_id' => ['exists:produits,id', 'required'],
-            'types' => ['array', 'exists:types,id', 'required'],
+            'types' => ['required'],
+            // 'types' => ['array', 'exists:types,id', 'required'],
             // 'etat' => ['required', 'boolean'],
         ];
     }

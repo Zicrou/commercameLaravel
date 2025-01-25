@@ -11,7 +11,20 @@
             <input type="hidden" name="user_id" value={{ $vente->user_id }}>
             <input type="hidden" name="statut" value={{ $vente->statut }}>
             <div class="col d-flex flex-column row mb-3 col-10">
-                @include('shared.select', ['class' => 'col-5', 'name' => 'types', 'label' => 'Types', 'value' => $vente->types()->pluck('id'), 'multiple' => true])
+                @php
+                    //dd($vente->types()->pluck('id'));
+                    foreach ($vente->types() as $type){
+                    }
+                    // <option selected>Open this select menu</option>
+                    //     <option value="{{ $type->id }}">{{ $type->name }}</option>
+                         
+                @endphp   
+                {{-- <select class="form-select col-5" name ='types' label = 'Types' aria-label="Default select example"> --}}
+                    {{-- @foreach ($vente->types() as $type) --}}
+                        {{-- <option value="{{ $type->id }}">{{ $type->name }}</option> --}}
+                    {{-- @endforeach --}}
+                {{-- </select> --}}
+                @include('shared.select', ['class' => 'col-5', 'name' => 'types', 'label' => 'Types', 'value' => $vente->types()->pluck('id')])
                 @include('shared.selectProduit', ['class' => 'col-5', 'name' => 'produit_id', 'label' => 'Produits', 'value' => $vente->produit()->pluck('id'), 'multiple' => false])
                 @include('shared.input', ['class' => 'col-3', 'name' => 'nombre', 'label' => 'Nombre','type' => 'number', 'value' => $vente->nombre])
                 @include('shared.input', ['class' => 'col-4', 'name' => 'prix', 'label' => 'Prix','type' => 'number', 'value' => $vente->prix])

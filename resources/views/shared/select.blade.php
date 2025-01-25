@@ -5,9 +5,9 @@
     $label ??= ucfirst($name);
 @endphp
 
-<div @class(["form-group select", $class])>
+<div @class(["select", $class])>
     <label for="{{ $name }}">{{ $label }}</label>
-    <select name="{{ $name }}[]" id="{{ $name }}" multiple>
+    <select name="{{ $name }}" id="{{ $name }}">
         @foreach ($types as $k => $v)
             <option @selected($value->contains($k)) value="{{ $k }}">{{ $v }}</option>
         @endforeach

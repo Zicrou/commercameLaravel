@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\VenteFormRequest;
+use App\Http\Requests\VenteFormRequest;
 use App\Http\Requests\SearchVentesRequest;
 use App\Models\Produit;
 use App\Models\Type;
@@ -18,33 +18,31 @@ class VenteController extends Controller
      */
     public function index(SearchVentesRequest $request)
     {
-        $query = Vente::query()->orderBy('created_at', 'desc');
-		// dd($query->produit->titre);
+        
+        
+        $startDate = now()->startOfDay();
+        $endDate = now()->endOfDay();
+        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('statut', 1)->orderBy('created_at', 'desc');
         if ($price = $request->validated('price')) {
 			$query->where('prix', '<=', $price);
 		}
         if ($title = $request->validated('title')) {
-			// $query->where('produit_id', 'like', "%{$title}%");
             $query->with('produit')->whereHas('produit', function ($query) use ($title) {
                 $query->where('titre', 'like', "%{$title}%");
             });
 		}
-		// if ($surface = $request->validated('surface')) {
-		// 	$query->where('surface', '>=', $surface);
-		// }
-		// if ($rooms = $request->validated('rooms')) {
-		// 	$query->where('rooms', '>=', $rooms);
-		// }
+        //  $totalOfTheDay = $query->sum("prix");
+         $totalOfTheDay = '';
 		
-
         return view('ventes.index', [
 			'ventes' => $query->paginate(3),
 			'input'      => $request->validated(),
+            'totalOfTheDay' => '',
 		]);
 
-        $ventes = Vente::orderBy('created_at', 'desc')->paginate(1);
-        return view("ventes.index",
-    ["ventes" => $ventes ]);
+    //     $ventes = Vente::orderBy('created_at', 'desc')->paginate(1);
+    //     return view("ventes.index",
+    // ["ventes" => $ventes ]);
     }
 
     /**
@@ -104,7 +102,7 @@ class VenteController extends Controller
      */
     public function destroy(Vente $vente)
     {
-        $vente->$vente->update('statut', false);
+        $vente->update(['statut' => 0]);
         return to_route('boutique.vente.index')->with('success', 'La vente a été supprimée');
     }
 }
