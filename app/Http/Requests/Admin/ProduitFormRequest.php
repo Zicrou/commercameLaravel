@@ -25,7 +25,7 @@ class ProduitFormRequest extends FormRequest
             'titre' => ['required', 'string', 'min:3'],
             'nombre' => ['required', 'integer', 'min:3'],
             'montant' => ['required', 'integer', 'min:3'],
-            // 'types' => ['array', 'exists:types,id', 'required'],
+            'image' => ['mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
             'etat' => ['required', 'boolean'],
         ];
     }

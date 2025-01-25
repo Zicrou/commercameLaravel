@@ -6,6 +6,10 @@ use App\Http\Controllers\Admin\ProduitController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\VenteController;
 
+$idRegex   = '[0-9]+';
+$slugRegex = '[0-9a-z\-]+';
+
+
 Route::get('/', function () {
     return view('base');
 });
@@ -17,6 +21,17 @@ Route::prefix('admin')->name('admin.')->group(function (){
     Route::resource('produit', ProduitController::class)->except(['show']);
     Route::resource('type', TypeController::class)->except(['show']);
 });
+
+// Route::delete('admin/produit/{image}', [ProduitController::class, 'destroyImage'])
+//     ->name('admin.produit.destroyImage')
+//     ->where([
+//         'image' => $idRegex,
+//     ]);
+Route::get('produit/{id}', [ProduitController::class, 'destroyImage'])
+    ->name('produit.destroyImage')
+    ->where([
+        'id' => $idRegex,
+]);
 
 Route::prefix('boutique')->name('boutique.')->group(function (){
     Route::resource('vente', VenteController::class);

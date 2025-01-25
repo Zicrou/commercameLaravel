@@ -28,6 +28,7 @@ class VenteFormRequest extends FormRequest
             'user_id' => ['exists:users,id', 'required'],
             'produit_id' => ['exists:produits,id', 'required'],
             'types' => ['required'],
+            'probleme' => ['required', 'string'],
             // 'types' => ['array', 'exists:types,id', 'required'],
             // 'etat' => ['required', 'boolean'],
         ];

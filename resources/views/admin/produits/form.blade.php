@@ -4,19 +4,25 @@
 
 @section('content')
     <h1>@yield('title')</h1>
-    <form action="{{route($produit->exists ? 'admin.produit.update' : 'admin.produit.store', $produit)}}" method="post">
+    <form action="{{route($produit->exists ? 'admin.produit.update' : 'admin.produit.store', $produit)}}" method="post" enctype="multipart/form-data">
         @csrf
         @method($produit->exists ? 'put' : 'post')
-        <div class="row">
+        <div class="row d-flex flex-column justify-content-center">
         
-            <div class="col row mb-3">
+            <div class="mb-3">
                 @include('shared.input', ['class' => 'col', 'name' => 'titre', 'label' => 'Titre', 'value' => $produit->titre])
+            </div>
+            <div class="mb-3">
                 @include('shared.input', ['class' => 'col', 'name' => 'nombre', 'label' => 'Nombre','type' => 'number', 'value' => $produit->nombre])
+            </div>
+            <div class="mb-3">
                 @include('shared.input', ['class' => 'col', 'name' => 'montant', 'label' => 'Montant', 'type' => 'number', 'value' => $produit->montant])
             </div>
-            {{-- @include('shared.select', ['name' => 'types', 'label' => 'Types', 'value' => $produit->types()->pluck('id'), 'multiple' => true]) --}}
-            @include('shared.checkbox', ['name' => 'etat', 'label' => 'Etat normal', 'value' => $produit->etat])
-
+            <div class=" mb-3">
+                @include('shared.input', ['name' => 'image', 'label' => 'Image', 'type' => 'file'])
+                @include('shared.checkbox', ['name' => 'etat', 'label' => 'Etat normal', 'value' => $produit->etat])
+            </div>
+            
             <div>
                 <button class="btn btn-primary">
                     @if ($produit->exists)
@@ -28,4 +34,22 @@
             </div>
         </div>
     </form>
+    @php
+    //   dd($produit->image )
+    @endphp
+    <div class="row">
+        <h2>Images</h2>
+        @if ($produit !== '' && $produit->image !== '' && $produit->id !== '')
+            {{-- @if ($produit->image !== '' && $produit->id !== '' ) --}}
+                {{-- @foreach ( $produit as $img ) --}}
+                    <div class="d-flex col-sm-3 mt-4">
+                        @if ($produit->image)
+                            <img class="" src="{{ asset($produit->image) }}" alt="image" style="width:600px;height:300px">
+                        @endif 
+                        {{-- <a class="px-2" href="{{ route('produit.destroyImage', $produit->id) }}">Effacer</a> --}}
+                    </div>
+                {{-- @endforeach --}}
+            {{-- @endif --}}
+        @endif
+    </div>
 @endsection

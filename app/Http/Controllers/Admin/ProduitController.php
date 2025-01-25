@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\ProduitFormRequest;
 use App\Models\Produit;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class ProduitController extends Controller
 {
@@ -36,7 +38,18 @@ class ProduitController extends Controller
      */
     public function store(ProduitFormRequest $request)
     {
-        $produit = Produit::create($request->validated());
+        $data = $request->validated();
+        if (request()->hasFile('image')) {
+            if($image = $request->file('image')){
+                $filename = $image->getClientOriginalName();
+                $imageName = time().'-'.uniqid().'_'.$filename;
+                $path = 'pictures/produit/';
+                $data['image'] = $path.$imageName;
+                // $image->storeAs($path, $imageName, 'public'); 
+                $image->move($path, $imageName);
+            }
+        }
+        $produit = Produit::create($data);
         // $produit->types()->sync($request->validated('types'));
         return to_route('admin.produit.index')->with('success', 'Le produit a été créé');
     }
@@ -59,7 +72,21 @@ class ProduitController extends Controller
      */
     public function update(ProduitFormRequest $request, Produit $produit)
     {
-        $produit->update($request->validated());
+        $data = $request->validated();
+        if (request()->hasFile('image')) {
+            if($image = $request->file('image')){
+                $filename = $image->getClientOriginalName();
+                $imageName = time().'-'.uniqid().'_'.$filename;
+                $path = 'pictures/produit/';
+                $data['image'] = $path.$imageName;
+                // $image->storeAs($path, $imageName, 'public'); 
+                $image->move($path, $imageName);
+            }
+        }
+        if (File::exists($produit->image)) {
+            File::delete($produit->image);
+        }
+        $produit->update($data);
         // $produit->types()->sync($request->validated('types'));
         return to_route('admin.produit.index')->with('success', 'Le produit a été modifié');
 
@@ -70,7 +97,20 @@ class ProduitController extends Controller
      */
     public function destroy(Produit $produit)
     {
+        if (File::exists($produit->image)) {
+            File::delete($produit->image);
+        }
         $produit->delete();
+        return to_route('admin.produit.index')->with('success', 'Le produit a été supprimé');
+    }
+
+    public function destroyImage($produit)
+    {
+        $produitImage = Produit::where('id', $produit)->first();
+        if (File::exists($produitImage->image)) {
+            File::delete($produitImage->image);
+        }
+        $produitImage->update(['image'=> '']);
         return to_route('admin.produit.index')->with('success', 'Le produit a été supprimé');
     }
 }

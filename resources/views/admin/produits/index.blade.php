@@ -17,6 +17,7 @@
                     <th>Nombre</th>
                     <th>Montant</th>
                     <th>Etat</th>
+                    <th>Image</th>
                     <th class="text-end">Actions</th>
                 </tr>
             </thead>
@@ -32,6 +33,11 @@
                         @else
                             <td><span class="badge bg-success">Normal</span></td>
                         @endif
+                        <td>
+                            @if ($produit->image)
+                                <img class="d-block w-100" style="width:30px; height:50px;" src="{{ asset($produit->image) }}" alt="">
+                            @endif
+                        </td>
                         <td>
                             <div class="d-flex gap-2 w-100 justify-content-end">
                                 {{-- <a href="{{ route('admin.upload.image', $produit) }}" class="btn btn-primary">Images</a>
@@ -54,4 +60,5 @@
         {{ $produits->links() }}
     
     </div>
+    
 @endsection

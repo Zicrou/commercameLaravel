@@ -12,30 +12,30 @@
     </form>
 </div>
 @php
- $totalOfTheDay = 0;
- $totalVenteOfTheDay= 0;
- $totalReparationOfTheDay= 0;
- $totalVenteEtReparationOfTheDay= 0;
-foreach ($ventes as $vente){
-    $total = $vente->prix * $vente->nombre;
-    $totalOfTheDay += $total;
-    $type_vente = $vente->types()->get();
-    foreach ($type_vente as $tv) {
-        // dd($tv->name);
-        if($tv->id == 1){
-            $total = $vente->prix * $vente->nombre;
-            $totalVenteOfTheDay += $total;
-        }elseif ($tv->id == 2) {
-            $total = $vente->prix * $vente->nombre;
-            $totalReparationOfTheDay += $total;
-        }elseif ($tv->id == 4) {
-            $total = $vente->prix * $vente->nombre;
-            $totalVenteEtReparationOfTheDay += $total;
-        }
+//  $totalOfTheDay = 0;
+//  $totalVenteOfTheDay= 0;
+//  $totalReparationOfTheDay= 0;
+//  $totalVenteEtReparationOfTheDay= 0;
+// foreach ($ventes as $vente){
+//     $total = $vente->prix * $vente->nombre;
+//     $totalOfTheDay += $total;
+//     $type_vente = $vente->types()->get();
+//     foreach ($type_vente as $tv) {
+//         // dd($tv->name);
+//         if($tv->id == 1){
+//             $total = $vente->prix * $vente->nombre;
+//             $totalVenteOfTheDay += $total;
+//         }elseif ($tv->id == 2) {
+//             $total = $vente->prix * $vente->nombre;
+//             $totalReparationOfTheDay += $total;
+//         }elseif ($tv->id == 4) {
+//             $total = $vente->prix * $vente->nombre;
+//             $totalVenteEtReparationOfTheDay += $total;
+//         }
 
-    }
+//     }
 
-}
+// }
 @endphp
 <div class="">
     <div class="">
@@ -55,6 +55,7 @@ foreach ($ventes as $vente){
                     <th>Prix</th>
                     <th>Total</th>
                     <th>User</th>
+                    <th>Probléme</th>
                     <th class="text-end">Actions</th>
                 </tr>
             </thead>
@@ -76,6 +77,7 @@ foreach ($ventes as $vente){
                         <td>{{ $vente->prix }}</td>
                         <td>{{ $total = $vente->prix * $vente->nombre }}</td>
                         <td>{{ $vente->user->name }}</td>
+                        <td>{{ $vente->probleme }}</td>
                         <td>
                             <div class="d-flex gap-2 w-100 justify-content-end">
                                 <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
