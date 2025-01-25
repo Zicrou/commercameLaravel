@@ -92,9 +92,16 @@ class VenteController extends Controller
      */
     public function store(VenteFormRequest $request)
     {
-        $vente = Vente::create($request->validated());
-        $vente->types()->sync($request->validated('types'));
-        return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
+        $produit = Produit::where('id', $request->validated('produit_id'))->first();
+        if ($produit->nombre < $request->validated('nombre')){
+            return to_route('boutique.vente.index')->with('error', 'Pas assez de produit');
+        }else{
+            $vente = Vente::create($request->validated());
+            $produit->nombre -= $request->validated('nombre');
+            $produit->save();
+            $vente->types()->sync($request->validated('types'));
+            return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
+        }
     }
 
     
@@ -116,6 +123,13 @@ class VenteController extends Controller
      */
     public function update(VenteFormRequest $request, Vente $vente)
     {
+        $produit = Produit::where('id', $request->validated('produit_id'))->first();
+        if ($request->validated('nombre') > $vente->nombre) {
+            $produit->nombre = $produit->nombre - ($request->validated('nombre') - $vente->nombre);
+        }elseif ($request->validated('nombre') < $vente->nombre) {
+            $produit->nombre = $produit->nombre + ($vente->nombre - $request->validated('nombre'));
+        }
+        $produit->save();
         $vente->update($request->validated());
         $vente->types()->sync($request->validated('types'));
         return to_route('boutique.vente.index')->with('success', 'La vente a été modifiée');
