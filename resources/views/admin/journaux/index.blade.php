@@ -11,18 +11,31 @@
         </button>
     </form>
 </div>
-@php
-// dd($ventes);
-@endphp
+
 <div class="">
     <div class="">
-        {{-- <div class="row d-flex justify-content-end">
-            <h1 class="d-flex justify-content-start"><u class="px-3">Total de la journée: </u> {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA</h1>
-            <h5><u class="px-3">Vente:</u>{{ number_format($totalVenteOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
-            <h5><u class="px-3">Réparation:</u> {{ number_format($totalReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
-            <h5><u class="px-3">Vente & Réparation:</u> {{ number_format($totalVenteEtReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
-            <a href="{{ route('boutique.vente.create')}}" class="btn btn-primary col-md-2 mb-3">Faire une vente</a>
-        </div>         --}}
+        <div class="row d-flex justify-content-center">
+            @php
+               
+               $total_amount_year = [];
+                foreach ($ventes_year as $key => $venteGroup) {
+                    $total = 0;
+                    foreach ($venteGroup as $vente) {
+                        $total += $vente->nombre * $vente->prix;
+                    }
+                    
+                    $total_amount_year[$key] = $total;
+                }
+                foreach ($total_amount_year as $year => $amount) {
+                    // echo $year . ' : ' . $amount . '<br/>';
+                    echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel'. $year .': </u> ' . number_format($amount, 0, '.', ' ' ) . ' FCFA</h1>';
+                }
+
+                            
+            @endphp
+        </div>        
+        @foreach ($ventes as $key => $venteGroup) 
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -38,44 +51,53 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ventes as $vente)
-
-            {{-- <h1 class="d-flex justify-content-start"><u class="px-3">Total de la journée: </u> {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA</h1> --}}
+                @php
+                    $totalMonth = 0;
+                @endphp
                 
-                    <tr>
-                        <td>{{ $vente->produit->titre }}</td>
-                        <td class="bg-info">
-                            @foreach ( $vente->types as $type )
-                                <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
-                            @endforeach ()
-                        </td>
-                        <td>{{ $vente->nombre }}</td>
-                        <td>{{ $vente->prix }}</td>
-                        <td>{{ $total = $vente->prix * $vente->nombre }}</td>
-                        <td>{{ $vente->user->name }}</td>
-                        <td>{{ $vente->probleme }}</td>
-                        <td>{{ $vente->created_at }}</td>
-                        <td>
-                            <div class="d-flex gap-2 w-100 justify-content-end">
-                                <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
-                                {{-- @can('delete', $vente) --}}
-                                    <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger">Supprimer</button>
-                                    </form>
-                                {{-- @endcan --}}
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
+                <tr>
+                    @php
+                        foreach ($venteGroup as $vente){
+                            $totalMonth += $vente->nombre *  $vente->prix;
+                        }
+                    @endphp
+                    <h1>{{ "Mois-Année: " . $key . " // Total : " . $totalMonth . "FCFA"}}</h1> 
+                    @foreach ($venteGroup as $vente)
+                            <td>{{ $vente->produit->titre }}</td>
+                            <td class="bg-info">
+                                @foreach ( $vente->types as $type )
+                                    <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
+                                @endforeach ()
+                            </td>
+                            <td>{{ $vente->nombre }}</td>
+                            <td>{{ $vente->prix }}</td>
+                            <td>{{ $total = $vente->prix * $vente->nombre }}</td>
+                            <td>{{ $vente->user->name }}</td>
+                            <td>{{ $vente->probleme }}</td>
+                            <td>{{ $vente->created_at }}</td>
+                            <td>
+                                <div class="d-flex gap-2 w-100 justify-content-end">
+                                    <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
+                                    {{-- @can('delete', $vente) --}}
+                                        <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-danger">Supprimer</button>
+                                        </form>
+                                    {{-- @endcan --}}
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
             </tbody>
         </table>
+        @endforeach
+
     </div>
 </div>
 
 <div class="my-4">
-    {{ $ventes->links() }}
+    {{-- {{ $vents->links() }} --}}
 </div>
 @endsection
 

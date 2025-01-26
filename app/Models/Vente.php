@@ -32,6 +32,12 @@ class Vente extends Model
         return $this->belongsTo(Produit::class);
     }
 
-    
+    public static function getVentesGroupedByYearAndMonth()
+    {
+        return self::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as total')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'month')
+            ->get();
+    }
     
 }
