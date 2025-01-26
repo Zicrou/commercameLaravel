@@ -18,8 +18,6 @@ class VenteController extends Controller
      */
     public function index(SearchVentesRequest $request)
     {
-        
-        
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
         $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('statut', 1)->orderBy('created_at', 'desc');

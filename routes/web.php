@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProduitController;
+use App\Http\Controllers\Admin\JournalController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\VenteController;
 
@@ -20,6 +21,7 @@ Route::get('/', function () {
 Route::prefix('admin')->name('admin.')->group(function (){
     Route::resource('produit', ProduitController::class)->except(['show']);
     Route::resource('type', TypeController::class)->except(['show']);
+    Route::resource('journal', JournalController::class);
 });
 
 // Route::delete('admin/produit/{image}', [ProduitController::class, 'destroyImage'])

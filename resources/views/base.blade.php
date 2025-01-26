@@ -29,6 +29,9 @@
               <li class="nav-item">
                 <a href="{{ route("boutique.vente.index")}}" @class(["nav-link", "active" => str_contains($route, 'boutique.')]) aria-current="page">Ventes</a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route("admin.journal.index")}}" @class(["nav-link", "active" => str_contains($route, 'journal.')]) aria-current="page">Journal</a>
+              </li>
             </ul>
             <div class="ms-auto">
               @auth
