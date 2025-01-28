@@ -2,7 +2,26 @@
 
 @section('title', 'Ventes')
 @section('content')
-<div class="bg-light p-5 mb-5 text-center">
+<section class="mb-5">
+    <form action="" method="get" class=" d-flex gap-3">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+                <div class="col-12 col-lg-6 mb-3">
+                    <input type="text" placeholder="Mot clef" class="form-control" name="title" value="{{ $input['title'] ?? ''}}">
+                </div>
+                <div class="col-12 col-lg-6 mb-3">
+                    <input type="number" placeholder="Budget max" class="form-control" name="price" value="{{ $input['price'] ?? ''}}">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary px-5 py-3 d-inline-block">
+                    Rechercher
+                </button>
+            </div>
+        </div>
+    </form>
+</section>
+{{-- <div class="bg-light p-5 mb-5 text-center">
     <form action="" method="get" class="container d-flex gap-2">
         <input type="text" placeholder="Mot clef" class="form-control" name="title" value="{{ $input['title'] ?? ''}}">
         <input type="number" placeholder="Budget max" class="form-control" name="price" value="{{ $input['price'] ?? ''}}">
@@ -10,7 +29,7 @@
             Rechercher
         </button>
     </form>
-</div>
+</div> --}}
 
 <div class="">
     <div class="">
@@ -88,8 +107,7 @@
                     @endforeach
             </tbody>
         </table>
-        <hr class="mb-5">
-        <hr class="mb-5">
+        <div class="" style="height: 4rem;"></div>
         @endforeach
 
     </div>
