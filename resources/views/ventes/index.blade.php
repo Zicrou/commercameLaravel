@@ -64,7 +64,7 @@
             {{-- <h1 class="d-flex justify-content-start"><u class="px-3">Total de la journée: </u> {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA</h1> --}}
                 
                     <tr>
-                        <td>{{ $vente->produit->titre }}</td>
+                        <td>{{ $vente->produit }}</td>
                         <td class="bg-info">
                             @foreach ( $vente->types as $type )
                                 <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>

@@ -16,7 +16,6 @@
     <div class="">
         <div class="row d-flex justify-content-center">
             @php
-               
                $total_amount_year = [];
                 foreach ($ventes_year as $key => $venteGroup) {
                     $total = 0;
@@ -30,13 +29,11 @@
                     // echo $year . ' : ' . $amount . '<br/>';
                     echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel'. $year .': </u> ' . number_format($amount, 0, '.', ' ' ) . ' FCFA</h1>';
                 }
-
-                            
             @endphp
         </div>        
         @foreach ($ventes as $key => $venteGroup) 
 
-        <table class="table table-striped">
+        <table class="table table-striped mb-5">
             <thead>
                 <tr>
                     <th>Produit</th>
@@ -63,7 +60,7 @@
                     @endphp
                     <h1>{{ "Mois-Année: " . $key . " // Total : " . $totalMonth . "FCFA"}}</h1> 
                     @foreach ($venteGroup as $vente)
-                            <td>{{ $vente->produit->titre }}</td>
+                            <td>{{ $vente->produit }}</td>
                             <td class="bg-info">
                                 @foreach ( $vente->types as $type )
                                     <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
@@ -91,6 +88,8 @@
                     @endforeach
             </tbody>
         </table>
+        <hr class="mb-5">
+        <hr class="mb-5">
         @endforeach
 
     </div>

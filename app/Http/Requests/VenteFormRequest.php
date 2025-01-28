@@ -26,9 +26,10 @@ class VenteFormRequest extends FormRequest
             'nombre' => ['required', 'integer', 'min:1'],
             'prix' => ['required', 'integer', 'min:3'],
             'user_id' => ['exists:users,id', 'required'],
-            'produit_id' => ['exists:produits,id', 'required'],
+            'produit' => ['required', 'string', 'min:2'],
+            // 'produit_id' => ['exists:produits,id', 'required'],
             'types' => ['required'],
-            'probleme' => ['required', 'string'],
+            // 'probleme' => ['string'],
             // 'types' => ['array', 'exists:types,id', 'required'],
             // 'etat' => ['required', 'boolean'],
         ];
