@@ -83,6 +83,7 @@ class VenteController extends Controller
             'vente' => $vente,
             'produits' => $produits,
             'types' => Type::pluck('name', 'id'),
+            'produits' => $produits,
         ]);
     }
 

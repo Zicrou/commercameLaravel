@@ -24,6 +24,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
+              <a href="{{ route("admin.produit.index")}}" @class(["nav-link", "text-white", "fs-5", "active" => str_contains($route, 'produit.')]) aria-current="page">Stock</a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route("admin.type.index")}}" @class(["nav-link", "text-white", "fs-5", "active" => str_contains($route, 'type.')]) aria-current="page">Types</a>
             </li>
             <li class="nav-item">
