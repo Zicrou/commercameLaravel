@@ -13,8 +13,8 @@ class Produit extends Model
 
     protected $fillable = ['designation', 'nombre', 'montant', 'image'];
 
-    public function vente(): HasMany
-    {
-        return $this->hasMany(Vente::class);
-    }
+    // public function vente(): HasMany
+    // {
+    //     return $this->hasMany(Vente::class);
+    // }
 }

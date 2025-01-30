@@ -26,7 +26,7 @@ class VenteController extends Controller
 		}
         if ($title = $request->validated('title')) {
             $query->with('produit')->whereHas('produit', function ($query) use ($title) {
-                $query->where('titre', 'like', "%{$title}%");
+                $query->where('designation', 'like', "%{$title}%");
             });
 		}
         //  $totalOfTheDay = $query->sum("prix");

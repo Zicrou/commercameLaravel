@@ -74,9 +74,6 @@
                             @foreach ( $vente->types as $type )
                                 <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
                             @endforeach ()
-                                
-                                
-                            
                         </td>
                         <td>{{ $vente->nombre }}</td>
                         <td>{{ $vente->prix }}</td>
