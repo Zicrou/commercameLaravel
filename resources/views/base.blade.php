@@ -57,7 +57,7 @@
     <div class="container mt-5">
         @if (session('success'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {{ session(key: 'success') }}
             </div>
         @endif
 

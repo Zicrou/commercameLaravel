@@ -11,7 +11,7 @@ class Produit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titre', 'nombre', 'montant', 'etat', 'image'];
+    protected $fillable = ['designation', 'nombre', 'montant', 'image'];
 
     public function vente(): HasMany
     {

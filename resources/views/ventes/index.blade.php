@@ -49,7 +49,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Titre</th>
+                    <th>Désignation</th>
                     <th>Types</th>
                     <th>Nombre</th>
                     <th>Prix</th>
@@ -64,7 +64,11 @@
             {{-- <h1 class="d-flex justify-content-start"><u class="px-3">Total de la journée: </u> {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA</h1> --}}
                 
                     <tr>
-                        <td>{{ $vente->produit->titre }}</td>
+                        @if ($vente->designation)
+                            <td>{{ $vente->designation }}</td>
+                        @else
+                            <td>{{ $vente->produit->designation }}</td>
+                        @endif
                         <td class="bg-info">
                             @foreach ( $vente->types as $type )
                                 <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>

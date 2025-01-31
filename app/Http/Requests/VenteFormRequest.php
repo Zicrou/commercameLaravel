@@ -22,15 +22,13 @@ class VenteFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'produit' => ['required', 'exists:produits,id'],
             'nombre' => ['required', 'integer', 'min:1'],
             'prix' => ['required', 'integer', 'min:3'],
             'user_id' => ['exists:users,id', 'required'],
-            'produit_id' => ['exists:produits,id', 'required'],
+            'designation' => ['string', 'nullable'],
+            'produit_id' => ['integer',  'nullable'],
             'types' => ['required'],
-            'probleme' => ['required', 'string'],
-            // 'types' => ['array', 'exists:types,id', 'required'],
-            // 'etat' => ['required', 'boolean'],
+            'image' => ['mimes:jpg,jpeg,png,webp'],
         ];
     }
 }

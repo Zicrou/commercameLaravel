@@ -11,7 +11,7 @@ class Vente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'nombre', 'prix', 'statut', 'produit_id', 'probleme'];
+    protected $fillable = ['designation', 'user_id', 'nombre', 'prix', 'statut', 'produit_id', 'image'];
 
     public function user(): BelongsTo
     {

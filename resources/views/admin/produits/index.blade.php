@@ -13,10 +13,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Titre</th>
+                    <th>Désignation</th>
                     <th>Nombre</th>
                     <th>Montant</th>
-                    <th>Etat</th>
                     <th>Image</th>
                     <th class="text-end">Actions</th>
                 </tr>
@@ -25,17 +24,12 @@
                 @foreach ($produits as $produit)
                 
                     <tr>
-                        <td>{{ $produit->titre }}</td>
+                        <td>{{ $produit->designation }}</td>
                         <td>{{ $produit->nombre }}</td>
                         <td>{{ number_format($produit->montant, thousands_separator: ' ') }}</td>
-                        @if ($produit->etat == 0)
-                            <td><span class="badge bg-danger">A répparer</span></td>
-                        @else
-                            <td><span class="badge bg-success">Normal</span></td>
-                        @endif
                         <td>
                             @if ($produit->image)
-                                <img class="d-block w-100" style="width:30px; height:50px;" src="{{ asset($produit->image) }}" alt="">
+                                <img class="d-block" style="height:50px;" src="{{ asset($produit->image) }}" alt="">
                             @endif
                         </td>
                         <td>

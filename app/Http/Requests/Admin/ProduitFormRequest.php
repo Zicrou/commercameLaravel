@@ -22,11 +22,11 @@ class ProduitFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'titre' => ['required', 'string', 'min:3'],
-            'nombre' => ['required', 'integer', 'min:3'],
+            'designation' => ['required', 'string', 'min:2'],
+            'nombre' => ['required', 'integer', 'min:1'],
             'montant' => ['required', 'integer', 'min:3'],
             'image' => ['mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
-            'etat' => ['required', 'boolean'],
+            // 'etat' => ['required', 'boolean'],
         ];
     }
 }
