@@ -21,15 +21,37 @@
         </div>
     </form>
 </section>
-<div class="">
-    <div class="">
-        <div class="row d-flex justify-content-end">
-            <h1 class="d-flex justify-content-start"><u class="px-3">Total de la journée: </u> {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA</h1>
-            <h5><u class="px-3">Vente:</u>{{ number_format($totalVenteOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
-            <h5><u class="px-3">Réparation:</u> {{ number_format($totalReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
-            <h5><u class="px-3">Vente & Réparation:</u> {{ number_format($totalVenteEtReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
-            <a href="{{ route('boutique.vente.create')}}" class="btn btn-primary col-md-2 mb-3">Faire une vente</a>
-        </div>        
+
+
+<section class="container py-3 mb-5">
+    <div class="row">
+        <div class="row align-items-center justify-content-center">
+            <div class="row">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-12 col-lg-7 my-3 d-flex justify-content-start">
+                            <h1 class="">
+                                <u class="mx-2 px-3">Total de la  journée: </u>
+                                {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA
+                            </h1>
+                        </div>
+                        <div class="col-12 col-lg-5">
+                            <h5 class="d-flex col-xm-6 justify-content-end"><u class="px-3">Vente:</u>{{ number_format($totalVenteOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
+                            <h5 class="d-flex col-xm-6 justify-content-end"><u class="px-3">Réparation:</u> {{ number_format($totalReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
+                            <h5 class="d-flex col-xm-6 justify-content-end"><u class="px-3">Vente & Réparation:</u> {{ number_format($totalVenteEtReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="row col-10 mx-auto d-flex justify-content-center">
+    <a href="{{ route('boutique.vente.create')}}" class="btn btn-primary col-md-2 mb-3 fs-5">Faire une vente</a>
+</div>
+
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -45,8 +67,6 @@
             </thead>
             <tbody>
                 @foreach ($ventes as $vente)
-            {{-- <h1 class="d-flex justify-content-start"><u class="px-3">Total de la journée: </u> {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA</h1> --}}
-               
                     <tr>
                         @if ($vente->designation)
                             <td>{{ $vente->designation }}</td>
@@ -84,8 +104,7 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
-</div>
+   
 
 <div class="my-4">
     {{ $ventes->links() }}
