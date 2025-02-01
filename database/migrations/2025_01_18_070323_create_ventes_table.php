@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
-            $table->string('produit');
+            $table->string('designation')->nullable();
             $table->integer('nombre');
             $table->integer('prix');
-            $table->boolean("statut")->default(true);
-            $table->string('probleme')->nullable();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->boolean("statut")->default(true); // For deleteting update it to false
             $table->string('image')->nullable();
+            $table->integer('produit_id')->nullable();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            // $table->foreignIdFor(Produit::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

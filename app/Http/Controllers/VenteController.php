@@ -55,7 +55,7 @@ class VenteController extends Controller
         }
 		
         return view('ventes.index', [
-			'ventes' => $query->paginate(3),
+			'ventes' => $query->paginate(5),
 			'input'      => $request->validated(),
             'totalOfTheDay' => $totalOfTheDay,
             'totalVenteOfTheDay' => $totalVenteOfTheDay,
@@ -77,11 +77,12 @@ class VenteController extends Controller
         $vente->fill([
             'user_id' => User::first()->id,
         ]);
-        // $produits = Produit::pluck('titre', 'id');
+        $produits = Produit::pluck('designation', 'id');
+        
         return view('ventes.form', [
             'vente' => $vente,
+            'produits' => $produits,
             'types' => Type::pluck('name', 'id'),
-            // 'produits' => $produits,
         ]);
     }
 
@@ -90,10 +91,30 @@ class VenteController extends Controller
      */
     public function store(VenteFormRequest $request)
     {
-        $vente = Vente::create($request->validated());
-        $vente->types()->sync($request->validated('types'));
-        return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
+        $produit = Produit::where('id', $request->validated('produit_id'))->first();
+        
+        if($request->validated(key: 'designation') and $produit){
+            return redirect()->route('boutique.vente.create')->with('error', 'Choisir entre Stock et Désignation');
+        }elseif ($request->validated('designation') or $produit) {
+            if ($produit) {
+                if ($produit->nombre < $request->validated('nombre')){
+                    return redirect()->route('boutique.vente.create')->with('error', 'Pas assez de produit de le stock');
+                }else{
+                    $vente = Vente::create($request->validated());
+                    $produit->nombre -= $request->validated('nombre');
+                    $produit->save();
+                    $vente->types()->sync($request->validated('types'));
+                    return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
+                }
+            }else{
+                $vente = Vente::create($request->validated());
+                $vente->types()->sync($request->validated('types'));
+                return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
+            }
+        }
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -103,7 +124,7 @@ class VenteController extends Controller
         return view('ventes.form', [
             'vente' => $vente, 
             'types' => Type::pluck('name', 'id'),
-            // 'produits' => Produit::pluck('titre', 'id'),
+            'produits' => Produit::pluck('designation', 'id'),
         ]);
     }
 
@@ -111,18 +132,20 @@ class VenteController extends Controller
      * Update the specified resource in storage.
      */
     public function update(VenteFormRequest $request, Vente $vente)
-    {
-        // $produit = Produit::where('id', $request->validated('produit_id'))->first();
-        // if ($request->validated('nombre') > $vente->nombre) {
-        //     $produit->nombre = $produit->nombre - ($request->validated('nombre') - $vente->nombre);
-        // }elseif ($request->validated('nombre') < $vente->nombre) {
-        //     $produit->nombre = $produit->nombre + ($vente->nombre - $request->validated('nombre'));
-        // }
-        // $produit->save();
+    {  
+        // dd($request->validated()) ;
+        if ($request->validated('produit_id')) {
+            $produit = Produit::where('id', $request->validated('produit_id'))->first();
+            if ($request->validated('nombre') > $vente->nombre) {
+                $produit->nombre = $produit->nombre - ($request->validated('nombre') - $vente->nombre);
+            }elseif ($request->validated('nombre') < $vente->nombre) {
+                $produit->nombre = $produit->nombre + ($vente->nombre - $request->validated('nombre'));
+            }
+            $produit->save();
+        }
         $vente->update($request->validated());
         $vente->types()->sync($request->validated('types'));
         return to_route('boutique.vente.index')->with('success', 'La vente a été modifiée');
-
     }
 
     /**
@@ -130,7 +153,12 @@ class VenteController extends Controller
      */
     public function destroy(Vente $vente)
     {
+        $produit = Produit::find(id: $vente->produit_id);
+        if($produit){
+            $produit->nombre += $vente->nombre;
+            $produit->save();
+        }
         $vente->update(['statut' => 0]);
-        return to_route('boutique.vente.index')->with('success', 'La vente a été supprimée');
+        return to_route('boutique.vente.index')->with('success', 'La vente a été annulée');
     }
 }

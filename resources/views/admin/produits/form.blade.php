@@ -10,7 +10,7 @@
         <div class="row d-flex flex-column justify-content-center">
         
             <div class="mb-3">
-                @include('shared.input', ['class' => 'col', 'name' => 'titre', 'label' => 'Titre', 'value' => $produit->titre])
+                @include('shared.input', ['class' => 'col', 'name' => 'designation', 'label' => 'Désignation', 'value' => $produit->designation])
             </div>
             <div class="mb-3">
                 @include('shared.input', ['class' => 'col', 'name' => 'nombre', 'label' => 'Nombre','type' => 'number', 'value' => $produit->nombre])
@@ -20,7 +20,7 @@
             </div>
             <div class=" mb-3">
                 @include('shared.input', ['name' => 'image', 'label' => 'Image', 'type' => 'file'])
-                @include('shared.checkbox', ['name' => 'etat', 'label' => 'Etat normal', 'value' => $produit->etat])
+                {{-- @include('shared.checkbox', ['name' => 'etat', 'label' => 'Etat normal', 'value' => $produit->etat]) --}}
             </div>
             
             <div>
