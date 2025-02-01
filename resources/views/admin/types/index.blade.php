@@ -1,4 +1,4 @@
-@extends('admin.admin')
+@extends('base')
 
 @section('title', 'Tous les types')
 

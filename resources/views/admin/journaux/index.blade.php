@@ -2,7 +2,26 @@
 
 @section('title', 'Ventes')
 @section('content')
-<div class="bg-light p-5 mb-5 text-center">
+<section class="mb-5">
+    <form action="" method="get" class=" d-flex gap-3">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+                <div class="col-12 col-lg-6 mb-3">
+                    <input type="text" placeholder="Mot clef" class="form-control" name="title" value="{{ $input['title'] ?? ''}}">
+                </div>
+                <div class="col-12 col-lg-6 mb-3">
+                    <input type="number" placeholder="Budget max" class="form-control" name="price" value="{{ $input['price'] ?? ''}}">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary px-5 py-3 d-inline-block">
+                    Rechercher
+                </button>
+            </div>
+        </div>
+    </form>
+</section>
+{{-- <div class="bg-light p-5 mb-5 text-center">
     <form action="" method="get" class="container d-flex gap-2">
         <input type="text" placeholder="Mot clef" class="form-control" name="title" value="{{ $input['title'] ?? ''}}">
         <input type="number" placeholder="Budget max" class="form-control" name="price" value="{{ $input['price'] ?? ''}}">
@@ -10,13 +29,12 @@
             Rechercher
         </button>
     </form>
-</div>
+</div> --}}
 
 <div class="">
     <div class="">
         <div class="row d-flex justify-content-center">
             @php
-               
                $total_amount_year = [];
                 foreach ($ventes_year as $key => $venteGroup) {
                     $total = 0;
@@ -30,13 +48,11 @@
                     // echo $year . ' : ' . $amount . '<br/>';
                     echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel'. $year .': </u> ' . number_format($amount, 0, '.', ' ' ) . ' FCFA</h1>';
                 }
-
-                            
             @endphp
         </div>        
         @foreach ($ventes as $key => $venteGroup) 
 
-        <table class="table table-striped">
+        <table class="table table-striped mb-5">
             <thead>
                 <tr>
                     <th>Produit</th>
@@ -63,7 +79,7 @@
                     @endphp
                     <h1>{{ "Mois-Année: " . $key . " // Total : " . $totalMonth . "FCFA"}}</h1> 
                     @foreach ($venteGroup as $vente)
-                            <td>{{ $vente->produit->titre }}</td>
+                            <td>{{ $vente->produit }}</td>
                             <td class="bg-info">
                                 @foreach ( $vente->types as $type )
                                     <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
@@ -91,6 +107,7 @@
                     @endforeach
             </tbody>
         </table>
+        <div class="" style="height: 4rem;"></div>
         @endforeach
 
     </div>

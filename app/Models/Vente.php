@@ -13,6 +13,7 @@ class Vente extends Model
 
     protected $fillable = ['designation', 'user_id', 'nombre', 'prix', 'statut', 'produit_id', 'image'];
 
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

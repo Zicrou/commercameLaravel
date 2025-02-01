@@ -1,4 +1,4 @@
-@extends('admin.admin')
+@extends('base')
 
 @section('title', $vente->exists? 'Editer le vente' : 'Ajouter un vente')
 @php

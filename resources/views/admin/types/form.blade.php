@@ -1,4 +1,4 @@
-@extends('admin.admin')
+@extends('base')
 
 @section('title', $type->exists? 'Editer le type' : 'Ajouter un type')
 
