@@ -55,19 +55,20 @@
                     <th>Prix</th>
                     <th>Total</th>
                     <th>User</th>
-                    <th>Probléme</th>
+                    <th>Provenant</th>
                     <th class="text-end">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($ventes as $vente)
             {{-- <h1 class="d-flex justify-content-start"><u class="px-3">Total de la journée: </u> {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA</h1> --}}
-                
+               
                     <tr>
                         @if ($vente->designation)
                             <td>{{ $vente->designation }}</td>
-                        @else
+                        @elseif ($vente->produit_id)
                             <td>{{ $vente->produit->designation }}</td>
+                        @else
                         @endif
                         <td class="bg-info">
                             @foreach ( $vente->types as $type )
@@ -81,7 +82,11 @@
                         <td>{{ $vente->prix }}</td>
                         <td>{{ $total = $vente->prix * $vente->nombre }}</td>
                         <td>{{ $vente->user->name }}</td>
-                        <td>{{ $vente->probleme }}</td>
+                        @if ($vente->designation)
+                            <td>Désignation</td>
+                        @else
+                            <td>Stock</td>
+                        @endif
                         <td>
                             <div class="d-flex gap-2 w-100 justify-content-end">
                                 <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
@@ -89,7 +94,7 @@
                                     <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger">Supprimer</button>
+                                        <button class="btn btn-danger">Annuler</button>
                                     </form>
                                 {{-- @endcan --}}
                             </div>

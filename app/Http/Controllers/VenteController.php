@@ -55,7 +55,7 @@ class VenteController extends Controller
         }
 		
         return view('ventes.index', [
-			'ventes' => $query->paginate(3),
+			'ventes' => $query->paginate(5),
 			'input'      => $request->validated(),
             'totalOfTheDay' => $totalOfTheDay,
             'totalVenteOfTheDay' => $totalVenteOfTheDay,
@@ -92,7 +92,8 @@ class VenteController extends Controller
     public function store(VenteFormRequest $request)
     {
         $produit = Produit::where('id', $request->validated('produit_id'))->first();
-        if($request->validated('designation') and $produit){
+        
+        if($request->validated(key: 'designation') and $produit){
             return redirect()->route('boutique.vente.create')->with('error', 'Choisir entre Stock et Désignation');
         }elseif ($request->validated('designation') or $produit) {
             if ($produit) {
@@ -111,16 +112,6 @@ class VenteController extends Controller
                 return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
             }
         }
-        else{
-        
-        }
-        //     $vente = Vente::create($request->validated());
-        //     $vente->types()->sync($request->validated('types'));
-        //     return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
-        // }else {
-            // Si $produit exist on fait une condition pour entrée dans le code ci-dessous sinon on crée directement
-            
-           
     }
 
     
@@ -141,18 +132,20 @@ class VenteController extends Controller
      * Update the specified resource in storage.
      */
     public function update(VenteFormRequest $request, Vente $vente)
-    {
-        $produit = Produit::where('id', $request->validated('produit_id'))->first();
-        if ($request->validated('nombre') > $vente->nombre) {
-            $produit->nombre = $produit->nombre - ($request->validated('nombre') - $vente->nombre);
-        }elseif ($request->validated('nombre') < $vente->nombre) {
-            $produit->nombre = $produit->nombre + ($vente->nombre - $request->validated('nombre'));
+    {  
+        // dd($request->validated()) ;
+        if ($request->validated('produit_id')) {
+            $produit = Produit::where('id', $request->validated('produit_id'))->first();
+            if ($request->validated('nombre') > $vente->nombre) {
+                $produit->nombre = $produit->nombre - ($request->validated('nombre') - $vente->nombre);
+            }elseif ($request->validated('nombre') < $vente->nombre) {
+                $produit->nombre = $produit->nombre + ($vente->nombre - $request->validated('nombre'));
+            }
+            $produit->save();
         }
-        $produit->save();
         $vente->update($request->validated());
         $vente->types()->sync($request->validated('types'));
         return to_route('boutique.vente.index')->with('success', 'La vente a été modifiée');
-
     }
 
     /**
@@ -160,7 +153,12 @@ class VenteController extends Controller
      */
     public function destroy(Vente $vente)
     {
+        $produit = Produit::find(id: $vente->produit_id);
+        if($produit){
+            $produit->nombre += $vente->nombre;
+            $produit->save();
+        }
         $vente->update(['statut' => 0]);
-        return to_route('boutique.vente.index')->with('success', 'La vente a été supprimée');
+        return to_route('boutique.vente.index')->with('success', 'La vente a été annulée');
     }
 }
