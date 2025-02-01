@@ -2,41 +2,25 @@
 
 @section('title', 'Ventes')
 @section('content')
-<div class="bg-light p-5 mb-5 text-center">
-    <form action="" method="get" class="container d-flex gap-2">
-        <input type="text" placeholder="Mot clef" class="form-control" name="title" value="{{ $input['title'] ?? ''}}">
-        <input type="number" placeholder="Budget max" class="form-control" name="price" value="{{ $input['price'] ?? ''}}">
-        <button class="btn btn-primary btn-sm flex-grow-0">
-            Rechercher
-        </button>
+<section class="mb-5">
+    <form action="" method="get" class=" d-flex gap-3">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+                <div class="col-12 col-lg-6 mb-3">
+                    <input type="text" placeholder="Mot clef" class="form-control" name="title" value="{{ $input['title'] ?? ''}}">
+                </div>
+                <div class="col-12 col-lg-6 mb-3">
+                    <input type="number" placeholder="Budget max" class="form-control" name="price" value="{{ $input['price'] ?? ''}}">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary px-5 py-3 d-inline-block">
+                    Rechercher
+                </button>
+            </div>
+        </div>
     </form>
-</div>
-@php
-//  $totalOfTheDay = 0;
-//  $totalVenteOfTheDay= 0;
-//  $totalReparationOfTheDay= 0;
-//  $totalVenteEtReparationOfTheDay= 0;
-// foreach ($ventes as $vente){
-//     $total = $vente->prix * $vente->nombre;
-//     $totalOfTheDay += $total;
-//     $type_vente = $vente->types()->get();
-//     foreach ($type_vente as $tv) {
-//         // dd($tv->name);
-//         if($tv->id == 1){
-//             $total = $vente->prix * $vente->nombre;
-//             $totalVenteOfTheDay += $total;
-//         }elseif ($tv->id == 2) {
-//             $total = $vente->prix * $vente->nombre;
-//             $totalReparationOfTheDay += $total;
-//         }elseif ($tv->id == 4) {
-//             $total = $vente->prix * $vente->nombre;
-//             $totalVenteEtReparationOfTheDay += $total;
-//         }
-
-//     }
-
-// }
-@endphp
+</section>
 <div class="">
     <div class="">
         <div class="row d-flex justify-content-end">
