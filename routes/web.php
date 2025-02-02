@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProduitController;
 use App\Http\Controllers\Admin\JournalController;
 use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\DepenseController;
 use App\Http\Controllers\VenteController;
 
 $idRegex   = '[0-9]+';
@@ -34,6 +35,10 @@ Route::get('produit/{id}', [ProduitController::class, 'destroyImage'])
     ->where([
         'id' => $idRegex,
 ]);
+
+Route::prefix('depense')->name('depense.')->group(function (){
+    Route::resource('depense', DepenseController::class);
+});
 
 Route::prefix('boutique')->name('boutique.')->group(function (){
     Route::resource('vente', VenteController::class);

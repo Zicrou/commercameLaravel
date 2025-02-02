@@ -33,6 +33,9 @@
               <a href="{{ route("boutique.vente.index")}}" @class(["nav-link", "text-white", "fs-5", "active" => str_contains($route, 'boutique.')]) aria-current="page">Ventes</a>
             </li>
             <li class="nav-item">
+              <a href="{{ route("depense.depense.index")}}" @class(["nav-link", "text-white", "fs-5", "active" => str_contains($route, 'depense.')]) aria-current="page">Dépenses</a>
+            </li>
+            <li class="nav-item">
               <a href="{{ route("admin.journal.index")}}" @class(["nav-link", "text-white", "fs-5", "active" => str_contains($route, 'journal.')]) aria-current="page">Journal</a>
             </li> 
             <li class="nav-item col-xm-3">

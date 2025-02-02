@@ -31,14 +31,14 @@
                     <div class="row">
                         <div class="col-12 col-lg-7 my-3 d-flex justify-content-start">
                             <h1 class="">
-                                <u class="mx-2 px-3">Total de la  journée: </u>
+                                <u class="mx-2 px-0">Total: </u>
                                 {{ number_format($totalOfTheDay, thousands_separator: ' ' )}} FCFA
                             </h1>
                         </div>
                         <div class="col-12 col-lg-5">
                             <h5 class="d-flex col-xm-6 justify-content-end"><u class="px-3">Vente:</u>{{ number_format($totalVenteOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
                             <h5 class="d-flex col-xm-6 justify-content-end"><u class="px-3">Réparation:</u> {{ number_format($totalReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
-                            <h5 class="d-flex col-xm-6 justify-content-end"><u class="px-3">Vente & Réparation:</u> {{ number_format($totalVenteEtReparationOfTheDay, thousands_separator: ' ' )}} FCFA</h5>
+                            <h5 class="d-flex col-xm-6 justify-content-end"><u class="px-3">Dépenses journaliére:</u> {{ number_format($depenseTotal, thousands_separator: ' ' )}} FCFA</h5>
                         </div>
                     </div>
                 </div>

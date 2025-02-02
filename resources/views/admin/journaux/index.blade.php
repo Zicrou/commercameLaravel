@@ -3,7 +3,7 @@
 @section('title', 'Ventes')
 @section('content')
 <section class="mb-5">
-    <form action="" method="get" class=" d-flex gap-3">
+    {{-- <form action="" method="get" class=" d-flex gap-3">
     <div class="container">
         <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-lg-6 mb-3">
@@ -19,23 +19,28 @@
                 </button>
             </div>
         </div>
-    </form>
+    </form> --}}
 </section>
-{{-- <div class="bg-light p-5 mb-5 text-center">
-    <form action="" method="get" class="container d-flex gap-2">
-        <input type="text" placeholder="Mot clef" class="form-control" name="title" value="{{ $input['title'] ?? ''}}">
-        <input type="number" placeholder="Budget max" class="form-control" name="price" value="{{ $input['price'] ?? ''}}">
-        <button class="btn btn-primary btn-sm flex-grow-0">
-            Rechercher
-        </button>
-    </form>
-</div> --}}
+@php
+use Carbon\Carbon;
+$totalDepense = 0;
+foreach ($depenses as $date => $depense) {
+    // echo $date. "\n";
+    foreach ($depense as $dep) {
+        $totalDepense += $dep->montant;
+    }
+}
+foreach ($depenses as $dateYear => $depense) {
+    $dy = Carbon::createFromFormat('m-Y', $dateYear)->format('Y');
+}
+@endphp
 
 <div class="">
     <div class="">
         <div class="row d-flex justify-content-center">
             @php
                $total_amount_year = [];
+            //    $totalKey = '';
                 foreach ($ventes_year as $key => $venteGroup) {
                     $total = 0;
                     foreach ($venteGroup as $vente) {
@@ -46,13 +51,18 @@
                 }
                 foreach ($total_amount_year as $year => $amount) {
                     // echo $year . ' : ' . $amount . '<br/>';
-                    echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel'. $year .': </u> ' . number_format($amount, 0, '.', ' ' ) . ' FCFA</h1>';
+                    if ($dy == $year) {
+                        echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel '. $year .': </u> ' . number_format($amount + $totalDepense, 0, '.', ' ' ) . ' FCFA</h1>';
+                    }else{
+                        echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel '. $year .': </u> ' . number_format($amount, 0, '.', ' ' ) . ' FCFA</h1>';
+                    }
+                    
                 }
             @endphp
         </div>        
         @foreach ($ventes as $key => $venteGroup) 
 
-        <table class="table table-striped mb-5">
+        <table class="table table-striped mb-1">
             <thead>
                 <tr>
                     <th>Produit</th>
@@ -61,9 +71,9 @@
                     <th>Prix</th>
                     <th>Total</th>
                     <th>User</th>
-                    <th>Probléme</th>
+                    {{-- <th>Dépense</th> --}}
                     <th>Date</th>
-                    <th class="text-end">Actions</th>
+                    {{-- <th class="text-end">Actions</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -77,7 +87,13 @@
                             $totalMonth += $vente->nombre *  $vente->prix;
                         }
                     @endphp
-                    <h1>{{ "Mois-Année: " . $key . " // Total : " . $totalMonth . "FCFA"}}</h1> 
+                    <h1>
+                        @if ($date ==  $key)
+                            {{ "Mois-Année: " . $key . " // Total : " . $totalMonth +  $totalDepense . "FCFA"}}
+                        @else
+                            {{ "Mois-Année: " . $key . " // Total : " . $totalMonth . "FCFA"}}
+                        @endif
+                    </h1> 
                     @foreach ($venteGroup as $vente)
                         @if ($vente->designation)
                             <td>{{ $vente->designation }}</td>
@@ -95,22 +111,32 @@
                         <td>{{ $vente->prix }}</td>
                         <td>{{ $total = $vente->prix * $vente->nombre }}</td>
                         <td>{{ $vente->user->name }}</td>
-                        <td>{{ $vente->probleme }}</td>
+                        
+                        
                         <td>{{ $vente->created_at }}</td>
                         <td>
-                            <div class="d-flex gap-2 w-100 justify-content-end">
+                            {{-- <div class="d-flex gap-2 w-100 justify-content-end">
                                 <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
                                     <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button class="btn btn-danger">Supprimer</button>
                                     </form>
-                            </div>
+                            </div> --}}
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        @if ($date ==  $key)
+            <div class="mt-0 pt-0">
+                <p class="mt-0 pt-0 fw-bold fs-3"><u>Total dépense {{$key}}:</u>  {{ $totalDepense }}</p> 
+            </div>
+        @else
+            <div class="mt-0 pt-0">
+                <p class="mt-0 pt-0 fw-bold fs-3">Pas de dépense </p> 
+            </div>
+        @endif
         <div class="" style="height: 4rem;"></div>
         @endforeach
 

@@ -9,6 +9,7 @@ use App\Models\Produit;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\Vente;
+use App\Models\Depense;
 use Illuminate\Http\Request;
 
 class VenteController extends Controller
@@ -18,9 +19,14 @@ class VenteController extends Controller
      */
     public function index(SearchVentesRequest $request)
     {
+        $depenseTotal = 0;
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
-        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('statut', 1)->orderBy('created_at', 'desc');
+        $queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->where('statut', 1)->orderBy('created_at', 'desc')->get();
+        foreach ($queryDepenses as $qd ) {
+           $depenseTotal += $qd->montant;
+        }
+        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->where('statut', 1)->orderBy('created_at', 'desc');
         if ($price = $request->validated('price')) {
 			$query->where('prix', '<=', $price);
 		}
@@ -60,7 +66,7 @@ class VenteController extends Controller
             'totalOfTheDay' => $totalOfTheDay,
             'totalVenteOfTheDay' => $totalVenteOfTheDay,
             'totalReparationOfTheDay' => $totalReparationOfTheDay,
-            'totalVenteEtReparationOfTheDay' => $totalVenteEtReparationOfTheDay,
+            'depenseTotal' => $depenseTotal,
 		]);
 
     //     $ventes = Vente::orderBy('created_at', 'desc')->paginate(1);
@@ -92,6 +98,7 @@ class VenteController extends Controller
      */
     public function store(VenteFormRequest $request)
     {
+        
         $produit = Produit::where('id', $request->validated('produit_id'))->first();
         
         if($request->validated(key: 'designation') and $produit){

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Vente;
+use App\Models\Depense;
 use Illuminate\Http\Request;
 
 class JournalController extends Controller
@@ -13,7 +14,12 @@ class JournalController extends Controller
      */
     public function index()
     {
-        
+        $depenseTotal = 0;
+        $queryDepenses = Depense::where('user_id', 1)->where('statut', 1)->orderBy('created_at', 'desc')->get();
+        $queryDepensess = $queryDepenses->groupBy(function($m) {
+            return $m->created_at->format('m-Y');
+        });
+
         $vents = Vente::where('statut', 1)->get();
         $ventes = $vents->groupBy(function($m) {
             return $m->created_at->format('m-Y');
@@ -26,7 +32,8 @@ class JournalController extends Controller
         
         return view("admin.journaux.index", [
             'ventes' =>   $ventes, 
-            'ventes_year' =>   $ventes_year, 
+            'ventes_year' =>   $ventes_year,
+            'depenses' => $queryDepensess, 
         ]);
     }
 

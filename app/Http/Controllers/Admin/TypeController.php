@@ -54,7 +54,6 @@ class TypeController extends Controller
     {
         $type->update($request->validated());
         return to_route('admin.type.index')->with('success', 'Le type a été modifié');
-
     }
 
     /**
@@ -62,6 +61,8 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
+        // Update instead of delete
+        // $type->update(['statut' => 0]);
         $type->delete();
         return to_route('admin.type.index')->with('success', 'Le type a été supprimé');
     }
