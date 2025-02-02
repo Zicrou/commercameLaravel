@@ -45,10 +45,10 @@
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             {{-- Login And Registration button --}}
             <li class="nav-item">
-              <a href="#" @class(["nav-link", "bg-info btn","mx-2 px-4","link-underline-info", "text-white", "fs-5", "active" => str_contains($route, 'login.')]) aria-current="page">Se connecter</a>
+              <a href="{{ route("login")}}" @class(["nav-link", "bg-info btn","mx-2 px-4","link-underline-info", "text-white", "fs-5", "active" => str_contains($route, 'login.')]) aria-current="page">Se connecter</a>
             </li> 
             <li class="nav-item">
-              <a href="#" @class(["nav-link", "btn","mx-2 px-4", "text-white", "fs-5", "active" => str_contains($route, 'login.')]) aria-current="page">S'inscrire</a>
+              <a href="{{ route("register")}}" @class(["nav-link", "btn","mx-2 px-4", "text-white", "fs-5", "active" => str_contains($route, 'login.')]) aria-current="page">S'inscrire</a>
             </li> 
           </ul>
         </div>
