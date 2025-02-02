@@ -5,9 +5,9 @@
     $label ??= ucfirst($name);
 @endphp
 
-<div @class(["select", $class])>
+<div @class(["col-12 col-lg-6 select", $class])>
     <label for="{{ $name }}">{{ $label }}</label>
-    <select name="{{ $name }}" id="{{ $name }}">
+    <select class="form-select" name="{{ $name }}" id="{{ $name }}" aria-label="Default select example">
         @foreach ($types as $k => $v)
             <option @selected($value->contains($k)) value="{{ $k }}">{{ $v }}</option>
         @endforeach

@@ -20,18 +20,20 @@ $route = request()->route()->getName();
             <input type="hidden" name="user_id" value={{ $vente->user_id }}>
             <input type="hidden" name="statut" value={{ $vente->statut }}>
             <div class="d-flex flex-column mb-3 col-10">
-                @include('shared.select', ['class' => 'col mb-3', 'name' => 'types', 'label' => 'Types', 'value' => $vente->types()->pluck('id')])
+                <div class="d-flex justify-content-center">
+                    @include('shared.select', ['class' => 'col mb-3', 'name' => 'types', 'label' => 'Types', 'value' => $vente->types()->pluck('id')])
+                </div>
                 @if (str_contains($route, 'edit'))
                     @if (!$vente->designation)
                         <h4>{{ $vente->produit->designation }}: stock</h4>
                         <input type="hidden" name="produit_id" value={{ $vente->produit_id }}>
                     @elseif (!$vente->produit_id)
-                        @include('shared.input', ['class' => 'col', 'name' => 'designation', 'label' => 'Désignation', 'type' => 'text', 'value' => $vente->designation])
+                        @include('shared.input', ['class' => '', 'name' => 'designation', 'label' => 'Désignation', 'type' => 'text', 'value' => $vente->designation])
                     @endif 
                 @elseif (str_contains($route, 'create'))
                     <div class="row">
                         <div class="col-10 col-lg-5">
-                            @include('shared.selectProduit', ['class disabled' => 'col', 'name' => 'produit_id', 'label' => 'A partir du stock', 'value' => $vente->produit()->pluck('id'), 'disabled' => true, 'multiple' => false])
+                            @include('shared.selectProduit', ['class' => '', 'name' => 'produit_id', 'label' => 'A partir du stock', 'value' => $vente->produit()->pluck('id'), 'disabled' => true, 'multiple' => false])
                         </div>
                         <span class="fw-bold fs-2 ps-5 col-lg-2">Ou</span>
                         <div class="col-10 col-lg-5">

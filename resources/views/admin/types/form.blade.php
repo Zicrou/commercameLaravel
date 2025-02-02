@@ -7,12 +7,12 @@
     <form action="{{route($type->exists ? 'admin.type.update' : 'admin.type.store', $type)}}" method="post">
         @csrf
         @method($type->exists ? 'put' : 'post')
-        <div class="row">
+        <div class="row d-flex justify-content-center">
         
-            <div class="col row mb-3">
+            <div class="col-12 col-xm-12 col-lg-6 row mb-3">
                 @include('shared.input', ['class' => 'col', 'name' => 'name', 'label' => 'Titre', 'value' => $type->name])
             </div>
-            <div>
+            <div class="row d-flex justify-content-center mt-3">
                 <button class="btn btn-primary">
                     @if ($type->exists)
                         Modifier

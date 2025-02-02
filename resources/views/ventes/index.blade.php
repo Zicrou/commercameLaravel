@@ -104,8 +104,6 @@
                 @endforeach
             </tbody>
         </table>
-   
-
 <div class="my-4">
     {{ $ventes->links() }}
 </div>

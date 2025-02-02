@@ -79,32 +79,36 @@
                     @endphp
                     <h1>{{ "Mois-Année: " . $key . " // Total : " . $totalMonth . "FCFA"}}</h1> 
                     @foreach ($venteGroup as $vente)
-                            <td>{{ $vente->produit }}</td>
-                            <td class="bg-info">
-                                @foreach ( $vente->types as $type )
-                                    <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
-                                @endforeach ()
-                            </td>
-                            <td>{{ $vente->nombre }}</td>
-                            <td>{{ $vente->prix }}</td>
-                            <td>{{ $total = $vente->prix * $vente->nombre }}</td>
-                            <td>{{ $vente->user->name }}</td>
-                            <td>{{ $vente->probleme }}</td>
-                            <td>{{ $vente->created_at }}</td>
-                            <td>
-                                <div class="d-flex gap-2 w-100 justify-content-end">
-                                    <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
-                                    {{-- @can('delete', $vente) --}}
-                                        <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
-                                            @csrf
-                                            @method('delete')
-                                            <button class="btn btn-danger">Supprimer</button>
-                                        </form>
-                                    {{-- @endcan --}}
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
+                        @if ($vente->designation)
+                            <td>{{ $vente->designation }}</td>
+                        @elseif ($vente->produit)
+                            <td>{{ $vente->produit->designation }}</td>
+                        @endif    
+                    
+                        
+                        <td class="bg-info">
+                            @foreach ( $vente->types as $type )
+                                <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
+                            @endforeach ()
+                        </td>
+                        <td>{{ $vente->nombre }}</td>
+                        <td>{{ $vente->prix }}</td>
+                        <td>{{ $total = $vente->prix * $vente->nombre }}</td>
+                        <td>{{ $vente->user->name }}</td>
+                        <td>{{ $vente->probleme }}</td>
+                        <td>{{ $vente->created_at }}</td>
+                        <td>
+                            <div class="d-flex gap-2 w-100 justify-content-end">
+                                <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
+                                    <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-danger">Supprimer</button>
+                                    </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
         <div class="" style="height: 4rem;"></div>
