@@ -35,116 +35,72 @@ foreach ($depenses as $dateYear => $depense) {
 }
 @endphp
 
-<div class="">
-    <div class="">
-        <div class="row d-flex justify-content-center">
-            @php
-               $total_amount_year = [];
-            //    $totalKey = '';
-                foreach ($ventes_year as $key => $venteGroup) {
-                    $total = 0;
-                    foreach ($venteGroup as $vente) {
-                        $total += $vente->nombre * $vente->prix;
-                    }
-                    
-                    $total_amount_year[$key] = $total;
-                }
-                foreach ($total_amount_year as $year => $amount) {
-                    // echo $year . ' : ' . $amount . '<br/>';
-                    if ($dy == $year) {
-                        echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel '. $year .': </u> ' . number_format($amount + $totalDepense, 0, '.', ' ' ) . ' FCFA</h1>';
-                    }else{
-                        echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel '. $year .': </u> ' . number_format($amount, 0, '.', ' ' ) . ' FCFA</h1>';
-                    }
-                    
-                }
-            @endphp
-        </div>        
-        @foreach ($ventes as $key => $venteGroup) 
-
-        <table class="table table-striped mb-1">
-            <thead>
-                <tr>
-                    <th>Produit</th>
-                    <th>Type</th>
-                    <th>Nombre</th>
-                    <th>Prix</th>
-                    <th>Total</th>
-                    <th>User</th>
-                    {{-- <th>Dépense</th> --}}
-                    <th>Date</th>
-                    {{-- <th class="text-end">Actions</th> --}}
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $totalMonth = 0;
-                @endphp
-                
-                <tr>
-                    @php
-                        foreach ($venteGroup as $vente){
-                            $totalMonth += $vente->nombre *  $vente->prix;
-                        }
-                    @endphp
-                    <h1>
-                        @if ($date ==  $key)
-                            {{ "Mois-Année: " . $key . " // Total : " . $totalMonth +  $totalDepense . "FCFA"}}
-                        @else
-                            {{ "Mois-Année: " . $key . " // Total : " . $totalMonth . "FCFA"}}
-                        @endif
-                    </h1> 
-                    @foreach ($venteGroup as $vente)
-                        @if ($vente->designation)
-                            <td>{{ $vente->designation }}</td>
-                        @elseif ($vente->produit)
-                            <td>{{ $vente->produit->designation }}</td>
-                        @endif    
-                    
-                        
-                        <td class="bg-info">
-                            @foreach ( $vente->types as $type )
-                                <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
-                            @endforeach ()
-                        </td>
-                        <td>{{ $vente->nombre }}</td>
-                        <td>{{ $vente->prix }}</td>
-                        <td>{{ $total = $vente->prix * $vente->nombre }}</td>
-                        <td>{{ $vente->user->name }}</td>
-                        
-                        
-                        <td>{{ $vente->created_at }}</td>
-                        <td>
-                            {{-- <div class="d-flex gap-2 w-100 justify-content-end">
-                                <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
-                                    <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger">Supprimer</button>
-                                    </form>
-                            </div> --}}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        @if ($date ==  $key)
-            <div class="mt-0 pt-0">
-                <p class="mt-0 pt-0 fw-bold fs-3"><u>Total dépense {{$key}}:</u>  {{ $totalDepense }}</p> 
+<div class="row d-flex justify-content-center">
+    @php
+        $total_amount_year = [];
+    //    $totalKey = '';
+        foreach ($ventes_year as $key => $venteGroup) {
+            $total = 0;
+            foreach ($venteGroup as $vente) {
+                $total += $vente->nombre * $vente->prix;
+            }
+            
+            $total_amount_year[$key] = $total;
+        }
+        foreach ($total_amount_year as $year => $amount) {
+            // echo $year . ' : ' . $amount . '<br/>';
+            if ($dy == $year) {
+                echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel '. $year .': </u> ' . number_format($amount + $totalDepense, 0, '.', ' ' ) . ' FCFA</h1>';
+            }else{
+                echo '<h1 class="mx-3 btn btn-outline-primary col-5 d-flex  justify-content-around"><u class="px-3">Total annuel '. $year .': </u> ' . number_format($amount, 0, '.', ' ' ) . ' FCFA</h1>';
+            }
+            
+        }
+        $totalMonth = 0;
+        foreach ($venteGroup as $vente){
+            $totalMonth += $vente->nombre *  $vente->prix;
+        }
+    @endphp
+</div>        
+@foreach ($ventes as $key => $venteGroup) 
+    <div class="card  mx-auto row col-lg-12 mb-5">
+        <div class="card-title col-12 d-flex justify-content-center">
+            @if ($date ==  $key)
+                <h1>{{ "Mois-Année: " . $key . " / Total : " . $totalMonth +  $totalDepense . "FCFA"}}</h1>
+            @else
+                <h1>{{ "Mois-Année: " . $key . " / Total : " . $totalMonth . "FCFA"}}</h1>
+            @endif
+        </div>
+        @foreach ($venteGroup as $vente)
+            <div class="card-body text-dark bg-light bg-gradient mt-2 mb-3">
+                <div class="border border-5">
+                    @if ($vente->designation)
+                        <p class="card-text fs-3 text-center">
+                            <span class="fw-bold">Désignation: </span>{{ $vente->designation }}
+                        </p>
+                    @elseif ($vente->produit)
+                    <p class="card-text fs-3 text-center">
+                        <span class="fw-bold">Désignation: </span> {{ $vente->produit->designation }}
+                    </p>
+                    @endif 
+                    @foreach ( $vente->types as $type )
+                        <span class="d-flex w-100 align-items-center justify-content-center"></span>
+                        <p class="card-text fs-3 text-center"><span class="fw-bold">Type: </span> {{ $type->name }}</p>
+                    @endforeach 
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Nombre: </span>{{ $vente->nombre }}</p>
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Prix: </span>{{ $vente->prix }}</p>
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Total: </span>{{ $total = $vente->prix * $vente->nombre }}</p>
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">User: </span>{{ $vente->user->name }}</p>
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Date: </span>{{ $vente->created_at }}</p>
+                    @if ($date ==  $key)
+                        <p class="card-text fs-3 text-center"><span class="fw-bold">Total des dépenses : </span> {{ $totalDepense }}</p> 
+                    @else
+                        <p class="card-text fs-3 text-center"><span class="fw-bold">Pas de dépense </span></p> 
+                    @endif
+                </div>
             </div>
-        @else
-            <div class="mt-0 pt-0">
-                <p class="mt-0 pt-0 fw-bold fs-3">Pas de dépense </p> 
-            </div>
-        @endif
-        <div class="" style="height: 4rem;"></div>
         @endforeach
-
-    </div>
-</div>
-
-<div class="my-4">
-    {{-- {{ $vents->links() }} --}}
-</div>
+    </div>    
+@endforeach
 @endsection
 

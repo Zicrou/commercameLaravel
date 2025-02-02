@@ -9,7 +9,7 @@
             <h1>@yield('title')</h1>
             <a href="{{ route('admin.produit.create') }}" class="btn btn-primary">Ajouter un produit</a>
         </div>
-    
+        
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -22,7 +22,6 @@
             </thead>
             <tbody>
                 @foreach ($produits as $produit)
-                
                     <tr>
                         <td>{{ $produit->designation }}</td>
                         <td>{{ $produit->nombre }}</td>

@@ -51,61 +51,45 @@
     <a href="{{ route('boutique.vente.create')}}" class="btn btn-primary col-md-2 mb-3 fs-5">Faire une vente</a>
 </div>
 
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Désignation</th>
-                    <th>Types</th>
-                    <th>Nombre</th>
-                    <th>Prix</th>
-                    <th>Total</th>
-                    <th>User</th>
-                    <th>Provenant</th>
-                    <th class="text-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($ventes as $vente)
-                    <tr>
-                        @if ($vente->designation)
-                            <td>{{ $vente->designation }}</td>
-                        @elseif ($vente->produit_id)
-                            <td>{{ $vente->produit->designation }}</td>
-                        @else
-                        @endif
-                        <td class="bg-info">
-                            @foreach ( $vente->types as $type )
-                                <span class="d-flex w-100 justify-content-center">{{ $type->name }}</span>
-                            @endforeach ()
-                        </td>
-                        <td>{{ $vente->nombre }}</td>
-                        <td>{{ $vente->prix }}</td>
-                        <td>{{ $total = $vente->prix * $vente->nombre }}</td>
-                        <td>{{ $vente->user->name }}</td>
-                        @if ($vente->designation)
-                            <td>Désignation</td>
-                        @else
-                            <td>Stock</td>
-                        @endif
-                        <td>
-                            <div class="d-flex gap-2 w-100 justify-content-end">
-                                <a href="{{ route('boutique.vente.edit', $vente) }}" class="btn btn-primary">Editer</a>
-                                {{-- @can('delete', $vente) --}}
-                                    <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger">Annuler</button>
-                                    </form>
-                                {{-- @endcan --}}
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-<div class="my-4">
-    {{ $ventes->links() }}
-</div>
+    @foreach ($ventes as $vente)
+        <div class="card mx-auto row col-12 col-lg-12 mb-5">
+            <div class="card-body text-dark bg-light bg-gradient">
+                @if ($vente->designation)
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Désignation:</span> {{ $vente->designation }}</p>
+                @elseif ($vente->produit_id)
+                <span class="card-text d-flex mx-auto col-3 col-lg-1 fw-bold fs-3 badge text-bg-primary mb-3">
+                    Stock
+                </span> 
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Désignation: </span> {{ $vente->produit->designation }}
+                    </p>
+                @endif
+                @foreach ( $vente->types as $type )
+                    <span class="d-flex w-100 align-items-center justify-content-center"></span>
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Type: </span> {{ $type->name }}</p>
+                @endforeach ()
+                <p class="card-text fs-3 text-center"><span class="fw-bold">Nombre: </span> {{ $vente->nombre }}</p>
+                <p class="card-text fs-3 text-center"><span class="fw-bold">Prix: </span> {{ $vente->prix }}</p>
+                <p class="card-text fs-3 text-center"><span class="fw-bold">Total: </span> {{ $total = $vente->prix * $vente->nombre }} FCFA</p>
+                <p class="card-text fs-3 text-center"><span class="fw-bold">User: </span> {{ $vente->user->name }}</p>
+            </div>
+            <div class="card-footer">
+                <div class="row d-flex justify-content-evenly">
+                    <div class="col-6 col-lg-5">
+                        <a href="{{ route('boutique.vente.edit', $vente) }}" class="text-center btn btn-primary">Editer</a>
+                    </div>
+                    <div class="col-6 col-lg-5 d-flex justify-content-center">
+                        <form action="{{ route('boutique.vente.destroy', $vente) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button class="text-center btn btn-danger">Annuler</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    @endforeach
+    <div class="my-4">
+        {{ $ventes->links() }}
+    </div>
 @endsection
 
