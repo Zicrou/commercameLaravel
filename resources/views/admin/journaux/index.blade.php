@@ -30,6 +30,7 @@ foreach ($depenses as $date => $depense) {
         $totalDepense += $dep->montant;
     }
 }
+$dy = null;
 foreach ($depenses as $dateYear => $depense) {
     $dy = Carbon::createFromFormat('m-Y', $dateYear)->format('Y');
 }
@@ -37,6 +38,7 @@ foreach ($depenses as $dateYear => $depense) {
 
 <div class="row d-flex justify-content-center">
     @php
+
         $total_amount_year = [];
     //    $totalKey = '';
         foreach ($ventes_year as $key => $venteGroup) {
@@ -56,16 +58,23 @@ foreach ($depenses as $dateYear => $depense) {
             }
             
         }
+    @endphp
+</div>        
+@php
+    
+@endphp
+@foreach ($ventes as $key => $venteGroup) 
+    @php
         $totalMonth = 0;
         foreach ($venteGroup as $vente){
             $totalMonth += $vente->nombre *  $vente->prix;
         }
+        
     @endphp
-</div>        
-@foreach ($ventes as $key => $venteGroup) 
     <div class="card  mx-auto row col-lg-12 mb-5">
         <div class="card-title col-12 d-flex justify-content-center">
-            @if ($date ==  $key)
+            
+            @if (isset($date) && $date ==  $key)
                 <h1>{{ "Mois-Année: " . $key . " / Total : " . $totalMonth +  $totalDepense . "FCFA"}}</h1>
             @else
                 <h1>{{ "Mois-Année: " . $key . " / Total : " . $totalMonth . "FCFA"}}</h1>
@@ -91,12 +100,12 @@ foreach ($depenses as $dateYear => $depense) {
                     <p class="card-text fs-3 text-center"><span class="fw-bold">Prix: </span>{{ $vente->prix }}</p>
                     <p class="card-text fs-3 text-center"><span class="fw-bold">Total: </span>{{ $total = $vente->prix * $vente->nombre }}</p>
                     <p class="card-text fs-3 text-center"><span class="fw-bold">User: </span>{{ $vente->user->name }}</p>
-                    <p class="card-text fs-3 text-center"><span class="fw-bold">Date: </span>{{ $vente->created_at }}</p>
-                    @if ($date ==  $key)
+                    @if (isset($date) && $date ==  $key)
                         <p class="card-text fs-3 text-center"><span class="fw-bold">Total des dépenses : </span> {{ $totalDepense }}</p> 
                     @else
                         <p class="card-text fs-3 text-center"><span class="fw-bold">Pas de dépense </span></p> 
                     @endif
+                    <p class="card-text fs-3 text-center"><span class="fw-bold">Date: </span>{{ $vente->created_at }}</p>
                 </div>
             </div>
         @endforeach

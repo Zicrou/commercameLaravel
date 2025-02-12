@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer("nombre");
             $table->integer("montant");
             $table->string('image')->nullable();
-            // $table->boolean("etat");
+            $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
         });
     }

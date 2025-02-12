@@ -52,8 +52,8 @@
 </div>
 
     @foreach ($ventes as $vente)
-        <div class="card mx-auto row col-12 col-lg-12 mb-5">
-            <div class="card-body text-dark bg-light bg-gradient">
+        <div class="card mx-auto row col-12 col-lg-12 mb-5"  style="background-color: #F2F2F2;">
+            <div class="card-header text-dark">
                 @if ($vente->designation)
                     <p class="card-text fs-3 text-center"><span class="fw-bold">Désignation:</span> {{ $vente->designation }}</p>
                 @elseif ($vente->produit_id)

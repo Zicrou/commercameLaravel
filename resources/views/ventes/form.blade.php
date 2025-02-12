@@ -8,10 +8,10 @@ $route = request()->route()->getName();
 @section('content')
     <h1>@yield('title')</h1>
     @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session(key: 'error') }}
-            </div>
-        @endif
+        <div class="alert alert-danger">
+            {{ session(key: 'error') }}
+        </div>
+    @endif
 
     <form action="{{route($vente->exists ? 'boutique.vente.update' : 'boutique.vente.store', $vente)}}" method="post">
         @csrf
@@ -54,7 +54,7 @@ $route = request()->route()->getName();
             {{-- <label class="mb-1">Image</label>
             <input type="file" name="image" class="form-control" value="{{ old('image') }}"> --}}
             {{-- @include('shared.checkbox', ['name' => 'etat', 'label' => 'Etat normal', 'value' => $vente->etat]) --}}
-            <div>
+            <div class="col-3 col-lg-3">
                 <button class="btn btn-primary">
                     @if ($vente->exists)
                         Modifier

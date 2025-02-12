@@ -1,4 +1,4 @@
-@extends('admin.admin')
+@extends('base')
 
 @section('title', $depense->exists? 'Editer' : 'Ajouter une depense')
 

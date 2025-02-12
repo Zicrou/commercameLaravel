@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('libelle');
             $table->integer('montant');
-            $table->boolean('statut')->default(true);
+            $table->dateTime('deleted_at')->nullable();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

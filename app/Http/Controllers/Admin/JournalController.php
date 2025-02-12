@@ -15,12 +15,24 @@ class JournalController extends Controller
     public function index()
     {
         $depenseTotal = 0;
-        $queryDepenses = Depense::where('user_id', 1)->where('statut', 1)->orderBy('created_at', 'desc')->get();
+        // Add Depenses de chaque jour dans Journal
+        
+        $startDate = now()->startOfDay();
+        $endDate = now()->endOfDay();
+        // $query = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc');
+        
+        // End ajout Depenses de chaque jour dans Journal
+
+        // Get Depense du Current jour Mais nou avons besoin des depenses de chaque jour
+        //$queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc')->get();
+        
+        //All Dpenses of the User
+        $queryDepenses = Depense::where('user_id', 1)->orderBy('created_at', 'desc')->get();
         $queryDepensess = $queryDepenses->groupBy(function($m) {
             return $m->created_at->format('m-Y');
         });
 
-        $vents = Vente::where('statut', 1)->get();
+        $vents = Vente::all();
         $ventes = $vents->groupBy(function($m) {
             return $m->created_at->format('m-Y');
         });

@@ -16,7 +16,7 @@ class DepenseController extends Controller
     {
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
-        $query = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->where('statut', 1)->orderBy('created_at', 'desc');
+        $query = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc');
         return view("depenses.index", [
             "depenses" => $query->paginate(10),
         ]);
@@ -75,7 +75,8 @@ class DepenseController extends Controller
      */
     public function destroy(Depense $depense)
     {
-        $depense->update(['statut' => 0]);
+        $depense->delete();
+        // $depense->update(['statut' => 0]);
         return to_route('depense.depense.index')->with('success', 'Le type a été supprimé');
     }
 }

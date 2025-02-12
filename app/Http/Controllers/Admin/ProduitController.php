@@ -100,7 +100,8 @@ class ProduitController extends Controller
         if (File::exists($produit->image)) {
             File::delete($produit->image);
         }
-        $produit->delete();
+        dd($produit->ventes);
+        // $produit->delete();
         return to_route('admin.produit.index')->with('success', 'Le produit a été supprimé');
     }
 

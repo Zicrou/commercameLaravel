@@ -10,7 +10,7 @@
     </div>
 
     @foreach ($types as $type)
-        <div class="card">
+        <div class="card mb-5"  style="background-color: #F2F2F2;">
             <div class="card-body bg-body-secondary">
                 Titre: {{ $type->name }}
             </div>

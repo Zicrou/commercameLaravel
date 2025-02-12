@@ -22,11 +22,12 @@ class VenteController extends Controller
         $depenseTotal = 0;
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
-        $queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->where('statut', 1)->orderBy('created_at', 'desc')->get();
+        $queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc')->get();
         foreach ($queryDepenses as $qd ) {
            $depenseTotal += $qd->montant;
         }
-        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->where('statut', 1)->orderBy('created_at', 'desc');
+        // dd($depenseTotal);
+        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc');
         if ($price = $request->validated('price')) {
 			$query->where('prix', '<=', $price);
 		}
