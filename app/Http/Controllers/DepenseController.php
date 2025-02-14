@@ -76,7 +76,6 @@ class DepenseController extends Controller
     public function destroy(Depense $depense)
     {
         $depense->delete();
-        // $depense->update(['statut' => 0]);
         return to_route('depense.depense.index')->with('success', 'Le type a été supprimé');
     }
 }

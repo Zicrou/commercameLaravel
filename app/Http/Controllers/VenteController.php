@@ -167,7 +167,7 @@ class VenteController extends Controller
             $produit->nombre += $vente->nombre;
             $produit->save();
         }
-        $vente->update(['statut' => 0]);
+        $vente->delete();
         return to_route('boutique.vente.index')->with('success', 'La vente a été annulée');
     }
 }

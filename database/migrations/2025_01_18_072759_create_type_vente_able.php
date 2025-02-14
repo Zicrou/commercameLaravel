@@ -13,6 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Add s or remove s to the table name
         Schema::create('type_vente', function (Blueprint $table) {
             $table->foreignIdFor(Type::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Vente::class)->constrained()->cascadeOnDelete();

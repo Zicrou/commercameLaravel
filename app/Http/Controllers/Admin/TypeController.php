@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TypeFormRequest;
 use App\Models\Type;
+use Illuminate\Support\Facades\DB;
 
 class TypeController extends Controller
 {
@@ -63,6 +64,10 @@ class TypeController extends Controller
     {
         // Update instead of delete
         // $type->update(['statut' => 0]);
+        $type_vente = \DB::table('type_vente')->where('type_id', $type->id)->first();
+        if($type_vente){
+            return to_route('admin.type.index')->with('error', 'Le type est utilisé dans une vente');
+        }
         $type->delete();
         return to_route('admin.type.index')->with('success', 'Le type a été supprimé');
     }
