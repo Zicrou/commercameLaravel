@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Vente;
 use App\Models\Depense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JournalController extends Controller
 {
@@ -19,24 +20,37 @@ class JournalController extends Controller
         
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
-        // $query = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc');
-        
-        // End ajout Depenses de chaque jour dans Journal
-
-        // Get Depense du Current jour Mais nou avons besoin des depenses de chaque jour
-        //$queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc')->get();
-        
-        //All Dpenses of the User
-        $queryDepenses = Depense::where('user_id', 1)->orderBy('created_at', 'desc')->get();
-        $queryDepensess = $queryDepenses->groupBy(function($m) {
-            return $m->created_at->format('m-Y');
+        $depenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $queryDepenses = $depenses->groupBy(function($m) {
+            return $m->created_at->format('d-m-Y');
         });
-
+        $journal = [];
+        
         $vents = Vente::all();
         $ventes = $vents->groupBy(function($m) {
-            return $m->created_at->format('m-Y');
+            return $m->created_at->format('d-m-Y');
         });
 
+        $deps = Depense::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $allDepenses = $deps->groupBy(function($m) {
+            return $m->created_at->format('d-m-Y');
+        });
+        
+        foreach ($allDepenses as $date => $depenses) {
+            $journal[$date]['depenses'] = $depenses;
+            $journal[$date]['ventes'] = collect();
+        }
+
+        foreach ($ventes as $date => $ventesDuJour) {
+            if (isset($journal[$date])) {
+                $journal[$date]['ventes'] = $ventesDuJour;
+            } else {
+                $journal[$date]['depenses'] = collect();
+                $journal[$date]['ventes'] = $ventesDuJour;
+            }
+            
+        }
+        //dd( $journal[$date]['depenses']);
         // $vents_year = Vente::where('statut', 1)->get();
         $ventes_year = $vents->groupBy(function($m) {
             return $m->created_at->format('Y');
@@ -44,8 +58,9 @@ class JournalController extends Controller
         
         return view("admin.journaux.index", [
             'ventes' =>   $ventes, 
-            'ventes_year' =>   $ventes_year,
-            'depenses' => $queryDepensess, 
+            'ventes_year' => $ventes_year,
+            'journal' => $journal, 
+            'depenses' => $allDepenses, 
         ]);
     }
 

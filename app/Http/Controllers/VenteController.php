@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Vente;
 use App\Models\Depense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VenteController extends Controller
 {
@@ -22,12 +23,12 @@ class VenteController extends Controller
         $depenseTotal = 0;
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
-        $queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc')->get();
+        $queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
         foreach ($queryDepenses as $qd ) {
-           $depenseTotal += $qd->montant;
+            $depenseTotal += $qd->montant;
         }
         // dd($depenseTotal);
-        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc');
+        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc');
         if ($price = $request->validated('price')) {
 			$query->where('prix', '<=', $price);
 		}
@@ -62,7 +63,7 @@ class VenteController extends Controller
         }
 		
         return view('ventes.index', [
-			'ventes' => $query->paginate(5),
+			'ventes' => $query->paginate(2),
 			'input'      => $request->validated(),
             'totalOfTheDay' => $totalOfTheDay,
             'totalVenteOfTheDay' => $totalVenteOfTheDay,

@@ -6,6 +6,7 @@ use App\Http\Requests\DepenseFormRequest;
 use Illuminate\Http\Request;
 use App\Models\Depense;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DepenseController extends Controller
 {
@@ -16,7 +17,7 @@ class DepenseController extends Controller
     {
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
-        $query = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', 1)->orderBy('created_at', 'desc');
+        $query = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc');
         return view("depenses.index", [
             "depenses" => $query->paginate(10),
         ]);
