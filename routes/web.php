@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProduitController;
 use App\Http\Controllers\Admin\JournalController;
 use App\Http\Controllers\Admin\TypeController;
-use App\Http\Controllers\DepenseController;
-use App\Http\Controllers\VenteController;
+use App\Http\Controllers\V1\DepenseController;
+use App\Http\Controllers\V1\VenteController;
 
 $idRegex   = '[0-9]+';
 $slugRegex = '[0-9a-z\-]+';

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\DepenseFormRequest;
 use Illuminate\Http\Request;
 use App\Models\Depense;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\Controller;
 class DepenseController extends Controller
 {
     /**
@@ -18,9 +18,9 @@ class DepenseController extends Controller
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
         $query = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc');
-        return view("depenses.index", [
-            "depenses" => $query->paginate(10),
-        ]);
+        // return view("depenses.index", [
+        //     "depenses" => $query->paginate(10),
+        // ]);
     }
 
     /**
@@ -32,9 +32,9 @@ class DepenseController extends Controller
         $depense->fill([
             'user_id' => User::first()->id,
         ]);
-        return view("depenses.form",[
-            "depense" => $depense,
-        ]);
+    //     return view("depenses.form",[
+    //         "depense" => $depense,
+    //     ]);
     }
 
     /**
@@ -43,7 +43,7 @@ class DepenseController extends Controller
     public function store(DepenseFormRequest $request)
     {
         $depense = Depense::create($request->validated());
-        return to_route('depense.depense.index')->with('success', 'La dépense a été créée');
+        // return to_route('depense.depense.index')->with('success', 'La dépense a été créée');
     }
 
     /**
@@ -59,7 +59,7 @@ class DepenseController extends Controller
      */
     public function edit(Depense $depense)
     {
-        return view('depenses.form', ['depense' => $depense]);
+        // return view('depenses.form', ['depense' => $depense]);
     }
 
     /**
@@ -68,7 +68,7 @@ class DepenseController extends Controller
     public function update(DepenseFormRequest $request, Depense $depense)
     {
         $depense->update($request->validated());
-        return to_route('depense.depense.index')->with('success', 'La dépense a été modifiée');
+        // return to_route('depense.depense.index')->with('success', 'La dépense a été modifiée');
     }
 
     /**
@@ -77,6 +77,6 @@ class DepenseController extends Controller
     public function destroy(Depense $depense)
     {
         $depense->delete();
-        return to_route('depense.depense.index')->with('success', 'Le type a été supprimé');
+        // return to_route('depense.depense.index')->with('success', 'Le type a été supprimé');
     }
 }

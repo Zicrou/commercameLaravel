@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;;
+namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VenteFormRequest;
@@ -10,16 +10,32 @@ use App\Models\Type;
 use App\Models\User;
 use App\Models\Vente;
 use App\Models\Depense;
+//use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Gate;
 
-class VenteController extends Controller
+
+class VenteController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth:sanctum'),
+        ];
+    }
+    
     /**
      * Display a listing of the resource.
      */
+    // public function index(SearchVentesRequest $request)
+    // {
+    //     return Vente::all();
+    // }
     public function index(SearchVentesRequest $request)
-    {
+   {        
         $depenseTotal = 0;
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
@@ -28,6 +44,7 @@ class VenteController extends Controller
             $depenseTotal += $qd->montant;
         }
         // dd($depenseTotal);
+        
         $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc');
         if ($price = $request->validated('price')) {
 			$query->where('prix', '<=', $price);
@@ -43,12 +60,13 @@ class VenteController extends Controller
          $totalReparationOfTheDay= 0;
          $totalVenteEtReparationOfTheDay= 0;
         $ventes = $query->get();
+        //return $ventes;
         foreach ($ventes as $vente){
             $total = $vente->prix * $vente->nombre;
             $totalOfTheDay += $total;
             $type_vente = $vente->types()->get();
             foreach ($type_vente as $tv) {
-                // dd($tv->name);
+                
                 if($tv->id == 1){
                     $total = $vente->prix * $vente->nombre;
                     $totalVenteOfTheDay += $total;
@@ -61,20 +79,29 @@ class VenteController extends Controller
                 }
             }
         }
+
+        return[
+        'ventes' => $ventes,
+        'input'      => $request->validated(),
+        'totalOfTheDay' => $totalOfTheDay,
+        'totalVenteOfTheDay' => $totalVenteOfTheDay,
+        'totalReparationOfTheDay' => $totalReparationOfTheDay,
+        'depenseTotal' => $depenseTotal,
+		];
 		
-        return view('ventes.index', [
-			'ventes' => $query->paginate(2),
-			'input'      => $request->validated(),
-            'totalOfTheDay' => $totalOfTheDay,
-            'totalVenteOfTheDay' => $totalVenteOfTheDay,
-            'totalReparationOfTheDay' => $totalReparationOfTheDay,
-            'depenseTotal' => $depenseTotal,
-		]);
+    //     return view('ventes.index', [
+	// 		'ventes' => $query->paginate(2),
+	// 		'input'      => $request->validated(),
+    //         'totalOfTheDay' => $totalOfTheDay,
+    //         'totalVenteOfTheDay' => $totalVenteOfTheDay,
+    //         'totalReparationOfTheDay' => $totalReparationOfTheDay,
+    //         'depenseTotal' => $depenseTotal,
+	// 	]);
 
     //     $ventes = Vente::orderBy('created_at', 'desc')->paginate(1);
     //     return view("ventes.index",
     // ["ventes" => $ventes ]);
-    }
+   }
 
     /**
      * Show the form for creating a new resource.
@@ -100,31 +127,44 @@ class VenteController extends Controller
      */
     public function store(VenteFormRequest $request)
     {
-        
-        $produit = Produit::where('id', $request->validated('produit_id'))->first();
+         $produit = Produit::where('id', $request->validated('produit_id'))->first();
+        // $vente = $request->user()->vente()->create($field);
+        // return $vente;
         
         if($request->validated(key: 'designation') and $produit){
-            return redirect()->route('boutique.vente.create')->with('error', 'Choisir entre Stock et Désignation');
+            return ["message" => "Choisir entre Stock et Désignation"];
+            //return redirect()->route('boutique.vente.create')->with('error', 'Choisir entre Stock et Désignation');
         }elseif ($request->validated('designation') or $produit) {
             if ($produit) {
                 if ($produit->nombre < $request->validated('nombre')){
-                    return redirect()->route('boutique.vente.create')->with('error', 'Pas assez de produit de le stock');
+                    return [
+                        "message" => "Pas assez de produit de le stock",
+                        "status" => "503",];
                 }else{
                     $vente = Vente::create($request->validated());
                     $produit->nombre -= $request->validated('nombre');
                     $produit->save();
                     $vente->types()->sync($request->validated('types'));
-                    return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
+                    return ["message" => "La vente a été créée avec succès",
+                    "status" => "200",];
                 }
             }else{
                 $vente = Vente::create($request->validated());
                 $vente->types()->sync($request->validated('types'));
-                return to_route('boutique.vente.index')->with('success', 'La vente a été créée');
+                return [
+                    "message" => "La vente a été créée avec succès",
+                    "status" => "200",
+                ];
             }
         }
     }
 
     
+
+    public function show(Vente $vente){
+        return $vente;
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -143,9 +183,28 @@ class VenteController extends Controller
      */
     public function update(VenteFormRequest $request, Vente $vente)
     {  
-        // dd($request->validated()) ;
+        Gate::authorize('modify', $vente);
+
+        // $field = $request->validate([
+        //     'nombre' => ['required', 'integer', 'min:1'],
+        //     'prix' => ['required', 'integer', 'min:3'],
+        //     'user_id' => ['exists:users,id', 'required'],
+        //     'designation' => ['string', 'nullable'],
+        //     'produit_id' => ['integer',  'nullable'],
+        //     'types' => ['required'],
+        //     'image' => ['mimes:jpg,jpeg,png,webp'],
+        // ]);
+
+        // $vente->update($field);
+        // return $vente;
+
+        //dd($request->validated()) ;
         if ($request->validated('produit_id')) {
-            $produit = Produit::where('id', $request->validated('produit_id'))->first();
+            $produit = Produit::where('id', $request->validated('produit_id'))->where('nombre', '>', 0)->first();
+            //return $produit;
+            if ($produit->nombre < ($request->validated('nombre') - $vente->nombre)) {
+                    return ["message" => "Pas assez de produit de le stock"];
+                }
             if ($request->validated('nombre') > $vente->nombre) {
                 $produit->nombre = $produit->nombre - ($request->validated('nombre') - $vente->nombre);
             }elseif ($request->validated('nombre') < $vente->nombre) {
@@ -155,7 +214,10 @@ class VenteController extends Controller
         }
         $vente->update($request->validated());
         $vente->types()->sync($request->validated('types'));
-        return to_route('boutique.vente.index')->with('success', 'La vente a été modifiée');
+        return [
+            'message', 'La vente a été modifiée',
+            'vente' => $vente,
+        ];
     }
 
     /**
@@ -163,12 +225,13 @@ class VenteController extends Controller
      */
     public function destroy(Vente $vente)
     {
+        Gate::authorize('modify', $vente);
         $produit = Produit::find(id: $vente->produit_id);
         if($produit){
             $produit->nombre += $vente->nombre;
             $produit->save();
         }
         $vente->delete();
-        return to_route('boutique.vente.index')->with('success', 'La vente a été annulée');
+        return ['message' => 'La vente a été annulée'];
     }
 }

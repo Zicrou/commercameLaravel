@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Test User',
-            'email' => 'aziz@comercame.com',
+            'phone_number' => '781020202',
             'password'   => Hash::make('Password412@'),
 			'created_at' => Carbon::now(),
 			'updated_at' => Carbon::now(),
