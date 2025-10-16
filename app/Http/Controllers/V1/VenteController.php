@@ -16,6 +16,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Sanctum\PersonalAccessToken;
 
 
 class VenteController extends Controller implements HasMiddleware
@@ -34,59 +35,89 @@ class VenteController extends Controller implements HasMiddleware
     // {
     //     return Vente::all();
     // }
-    public function index(SearchVentesRequest $request)
+    public function index(Request $request)
    {        
+
+    
+    $req = $request->validate([
+            'price' => ['numeric', 'gte:0', 'nullable'],
+            // 'surface' => ['numeric', 'gte:0', 'nullable'],
+            // 'rooms' => ['numeric', 'gte:0', 'nullable'],
+            'title' => ['string', 'nullable'],
+        
+        ]);
+
+        $tokenFromRequest = PersonalAccessToken::findToken($request->bearerToken());
+      
+        //$personalAccessToken = PersonalAccessToken::findToken($request->bearerToken());
+
+   //     $session = session('user_id');
         $depenseTotal = 0;
         $startDate = now()->startOfDay();
         $endDate = now()->endOfDay();
-        $queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        $queryDepenses = Depense::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', $tokenFromRequest->tokenable_id)->orderBy('created_at', 'desc')->get();
         foreach ($queryDepenses as $qd ) {
             $depenseTotal += $qd->montant;
         }
         // dd($depenseTotal);
         
-        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc');
-        if ($price = $request->validated('price')) {
+        $query = Vente::query()->whereBetween('created_at', [$startDate, $endDate])->where('user_id', $tokenFromRequest->tokenable_id)->orderBy('created_at', 'desc');
+
+        if ($price = $request->validate(['price'])) {
 			$query->where('prix', '<=', $price);
 		}
-        if ($title = $request->validated('title')) {
+        if ($title = $request->validate(['title'])) {
             $query->with('produit')->whereHas('produit', function ($query) use ($title) {
                 $query->where('designation', 'like', "%{$title}%");
             });
 		}
+
+        $query = $query->with('types')->whereHas('types', function ($query) use ($request) {
+            if ($typeId = $request->validate(['type_id'])) {
+                $query->where('id', $typeId);
+            }
+        });
+
+        $query = $query->with('produit');
+        // ->whereHas('produit', function ($query) use ($request) {
+        //     if ($produitID = $request->validate(['produit_id'])) {
+        //         $query->where('id', $produitID);
+        //     }
+        // });
+        //         $query->where('designation', 'like', "%{$title}%");
         //  $totalOfTheDay = $query->sum("prix");
-         $totalOfTheDay = 0;
-         $totalVenteOfTheDay= 0;
-         $totalReparationOfTheDay= 0;
-         $totalVenteEtReparationOfTheDay= 0;
-        $ventes = $query->get();
-        //return $ventes;
-        foreach ($ventes as $vente){
+        $totalOfTheDay = 0;
+        $totalVenteOfTheDay= 0;
+        $totalReparationOfTheDay= 0;
+        
+        $ventesAll = $query->get(); // Add Types in Query for GetListVentes
+        $ventes = $ventesAll; // Get Types names for each Vente
+        foreach ($ventesAll as $vente){
             $total = $vente->prix * $vente->nombre;
-            $totalOfTheDay += $total;
-            $type_vente = $vente->types()->get();
+            $type_vente = $vente->types()->get(); // use $vente->types() pour get types of vente
             foreach ($type_vente as $tv) {
                 
-                if($tv->id == 1){
-                    $total = $vente->prix * $vente->nombre;
-                    $totalVenteOfTheDay += $total;
-                }elseif ($tv->id == 2) {
-                    $total = $vente->prix * $vente->nombre;
-                    $totalReparationOfTheDay += $total;
-                }elseif ($tv->id == 4) {
-                    $total = $vente->prix * $vente->nombre;
-                    $totalVenteEtReparationOfTheDay += $total;
+                if($tv->id == 0){
+                    $totalVente = $vente->prix * $vente->nombre;
+                    $totalVenteOfTheDay += $totalVente;
+                }elseif ($tv->id == 1) {
+                    $totalReparation = $vente->prix * $vente->nombre;
+                    $totalReparationOfTheDay += $totalReparation;
                 }
             }
         }
-
+        
+       $totalOfTheDay = $totalOfTheDay + $totalVenteOfTheDay + $totalReparationOfTheDay;
         return[
-        'ventes' => $ventes,
-        'input'      => $request->validated(),
+        //'personalAccessToken' =>  $tokenFromRequest->tokenable_id,
+        // 'userSession' => Auth::id(), // or Auth::id(), //== $personalAccessToken->tokenable_id,
+        'ventes' => $ventes, // Get Types names for each Vente
+        'input'      => $req,
         'totalOfTheDay' => $totalOfTheDay,
         'totalVenteOfTheDay' => $totalVenteOfTheDay,
         'totalReparationOfTheDay' => $totalReparationOfTheDay,
         'depenseTotal' => $depenseTotal,
+        "status" => "200",
 		];
 		
     //     return view('ventes.index', [
@@ -106,28 +137,40 @@ class VenteController extends Controller implements HasMiddleware
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $vente = new Vente();
-        $vente->fill([
-            'user_id' => User::first()->id,
-        ]);
-        $produits = Produit::pluck('designation', 'id');
+    // public function create()
+    // {
+    //     $vente = new Vente();
+    //     $vente->fill([
+    //         'user_id' => User::first()->id,
+    //     ]);
+    //     $produits = Produit::pluck('designation', 'id');
         
-        return view('ventes.form', [
-            'vente' => $vente,
-            'produits' => $produits,
-            'types' => Type::pluck('name', 'id'),
-            'produits' => $produits,
-        ]);
-    }
+    //     return view('ventes.form', [
+    //         'vente' => $vente,
+    //         'produits' => $produits,
+    //         'types' => Type::pluck('name', 'id'),
+    //         'produits' => $produits,
+    //     ]);
+    // }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(VenteFormRequest $request)
     {
-         $produit = Produit::where('id', $request->validated('produit_id'))->first();
+        $request->validate([
+            'nombre' => ['required', 'integer', 'min:1'],
+            'prix' => ['required', 'integer', 'min:3'],
+            'user_id' => ['exists:users,id', 'required'],
+            'designation' => ['string', 'nullable'],
+            'produit_id' => ['integer',  'nullable'],
+            'type_id' => [ 'exists:types,id', 'required'],
+            'image' => ['mimes:jpg,jpeg,png,webp'],
+        ]); 
+
+        //return $request->validated();
+        
+        $produit = Produit::where('id', $request->validated('produit_id'))->first();
         // $vente = $request->user()->vente()->create($field);
         // return $vente;
         
@@ -144,15 +187,17 @@ class VenteController extends Controller implements HasMiddleware
                     $vente = Vente::create($request->validated());
                     $produit->nombre -= $request->validated('nombre');
                     $produit->save();
-                    $vente->types()->sync($request->validated('types'));
+                    //$vente->type_id = $request->validated('type_id');
                     return ["message" => "La vente a été créée avec succès",
                     "status" => "200",];
                 }
             }else{
+
                 $vente = Vente::create($request->validated());
-                $vente->types()->sync($request->validated('types'));
+                //$vente->type_id = $request->validated('type_id');
                 return [
-                    "message" => "La vente a été créée avec succès",
+                    // "message" => "La vente a été créée avec succès",
+                    "vente" => $vente,
                     "status" => "200",
                 ];
             }
@@ -169,14 +214,14 @@ class VenteController extends Controller implements HasMiddleware
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Vente $vente)
-    {
-        return view('ventes.form', [
-            'vente' => $vente, 
-            'types' => Type::pluck('name', 'id'),
-            'produits' => Produit::pluck('designation', 'id'),
-        ]);
-    }
+    // public function edit(Vente $vente)
+    // {
+    //     return view('ventes.form', [
+    //         'vente' => $vente, 
+    //         'types' => Type::pluck('name', 'id'),
+    //         'produits' => Produit::pluck('designation', 'id'),
+    //     ]);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -185,6 +230,7 @@ class VenteController extends Controller implements HasMiddleware
     {  
         Gate::authorize('modify', $vente);
 
+        $venteFromrequest = $request->validated();
         // $field = $request->validate([
         //     'nombre' => ['required', 'integer', 'min:1'],
         //     'prix' => ['required', 'integer', 'min:3'],
@@ -213,10 +259,11 @@ class VenteController extends Controller implements HasMiddleware
             $produit->save();
         }
         $vente->update($request->validated());
-        $vente->types()->sync($request->validated('types'));
+        // $vente->types()->sync($request->validated('types'));
         return [
-            'message', 'La vente a été modifiée',
+            //'VenteFromRequest' => $venteFromrequest,
             'vente' => $vente,
+            "status" => "200",
         ];
     }
 
@@ -232,6 +279,6 @@ class VenteController extends Controller implements HasMiddleware
             $produit->save();
         }
         $vente->delete();
-        return ['message' => 'La vente a été annulée'];
+        return ['message' => 'La vente a été annulée',"status" => "200"];
     }
 }

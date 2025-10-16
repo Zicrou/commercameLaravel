@@ -13,7 +13,7 @@ class Vente extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['designation', 'user_id', 'nombre', 'prix', 'statut', 'produit_id', 'image'];
+    protected $fillable = ['designation', 'user_id', 'nombre', 'prix', 'statut', 'produit_id', 'image', 'type_id'];
 
 
     public function user(): BelongsTo
@@ -25,9 +25,9 @@ class Vente extends Model
     {
         return $this->belongsTo(Produit::class);
     }
-    public function types(): BelongsToMany
+    public function types(): BelongsTo
     {
-        return $this->belongsToMany(Type::class);
+        return $this->belongsTo(Type::class, 'type_id');
     }
 
     public function produits(): BelongsTo

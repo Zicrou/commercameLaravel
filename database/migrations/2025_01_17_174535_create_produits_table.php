@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->integer("nombre");
             $table->integer("montant");
             $table->string('image')->nullable();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
         });

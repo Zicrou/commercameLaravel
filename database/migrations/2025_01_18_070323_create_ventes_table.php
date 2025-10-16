@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Produit;
+use App\Models\Type;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->integer('produit_id')->nullable();
             $table->dateTime('deleted_at')->nullable();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Type::class)->constrained()->cascadeOnDelete();
             // $table->foreignIdFor(Produit::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

@@ -13,10 +13,14 @@ class Produit extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['designation', 'nombre', 'montant', 'image'];
+    protected $fillable = ['designation', 'nombre', 'montant', 'image', 'user_id'];
 
     public function vente(): HasMany
     {
         return $this->hasMany(Vente::class);
+    }
+
+    public function scopeSupeAZero($query, $userId){
+        return $query->where('nombre', '>', 0)->where('user_id', $userId)->orderBy('created_at', 'desc');
     }
 }

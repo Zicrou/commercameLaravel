@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Faker\Provider\ar_EG\Person;
 use Laravel\Sanctum\PersonalAccessToken;
-
+use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function register(Request $request){
@@ -16,6 +16,7 @@ class AuthController extends Controller
             'phone_number' => 'required|string|max:255|unique:users',
             'password' => 'required',
         ]);
+        $fields['password'] =  Hash::make($fields['password']);
 
         $user = User::create($fields);
 
@@ -38,17 +39,28 @@ class AuthController extends Controller
         }
     
         $token = $user->createToken($user->name);
+        
+        //session(['user_id' => $user->id]); 
+
         $tokenFromRequest = PersonalAccessToken::findToken($token->plainTextToken);
         //$tokenFromRequest->user;
         return [
             'user' => $user, 
             'token' => $token->plainTextToken,
-            '$tokenFromRequest' => $tokenFromRequest->tokenable_id,
+            'tokenFromRequest' => $tokenFromRequest,
+            
         ];
     }
 
     public function logout(Request $request){
+        //return "Ok";
         $request->user()->tokens()->delete();
-         return ['message' => 'you are logged out'];
+        //session()->flush(); // removes all session data
+        return ['message' => 'you are logged out',
+            'loggedOut' => true,
+            
+        ];
+        // $tokenString = $request->bearerToken(); // Just the token string, no "Bearer"
+        // $tokenFromRequest = PersonalAccessToken::findToken($tokenString);
     }
 }

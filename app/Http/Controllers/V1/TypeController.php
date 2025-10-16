@@ -5,28 +5,40 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TypeFormRequest;
 use App\Models\Type;
+use App\Models\Vente;
+use Faker\Provider\ar_EG\Person;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Laravel\Sanctum\PersonalAccessToken;
 
-class TypeController extends Controller
+class TypeController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth:sanctum'),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return ["types" => Type::all()];
+    {   
+        return ["types" => Type::all(),"status" => "200",];
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $type = new Type();
-        return view('admin.types.form', [
-            'type' => $type
-        ]);
-    }
+    // public function create()
+    // {
+    //     $type = new Type();
+    //     return view('admin.types.form', [
+    //         'type' => $type
+    //     ]);
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -34,7 +46,10 @@ class TypeController extends Controller
     public function store(TypeFormRequest $request)
     {
         $type = Type::create($request->validated());
-        return ["message" => "Le type a été créé avec succès"];
+        return [
+            "status" => "200",
+            "type" => $type
+        ];
     }
 
     
@@ -42,10 +57,10 @@ class TypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Type $type)
-    {
-        return view('admin.types.form', ['type' => $type]);
-    }
+    // public function edit(Type $type)
+    // {
+    //     return view('admin.types.form', ['type' => $type]);
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -53,7 +68,10 @@ class TypeController extends Controller
     public function update(TypeFormRequest $request, Type $type)
     {
         $type->update($request->validated());
-        return to_route('admin.type.index')->with('success', 'Le type a été modifié');
+        return [
+            "status" => "200",
+            "type" => $type
+        ];
     }
 
     /**
@@ -61,13 +79,21 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        // Update instead of delete
-        // $type->update(['statut' => 0]);
-        $type_vente = DB::table('type_vente')->where('type_id', $type->id)->first();
-        if($type_vente){
-            return to_route('admin.type.index')->with('error', 'Le type est utilisé dans une vente');
+        $vente = Vente::where('type_id', $type->id);
+        if($vente != null){
+            return ['errMessage' => 'Ce type a une vente'];
         }
-        $type->delete();
-        return to_route('admin.type.index')->with('success', 'Le type a été supprimé');
+        if($type->delete()){
+            return [
+                "status" => "200",
+            ];
+        }else{
+            return [
+                "status" => "500",
+                "errMessage" => "Failed to delete type"
+            ];
+        }
+        
+        
     }
 }

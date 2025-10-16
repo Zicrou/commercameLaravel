@@ -27,7 +27,7 @@ class VenteFormRequest extends FormRequest
             'user_id' => ['exists:users,id', 'required'],
             'designation' => ['string', 'nullable'],
             'produit_id' => ['integer',  'nullable'],
-            'types' => ['required'],
+            'type_id' => [ 'exists:types,id', 'required'],
             'image' => ['mimes:jpg,jpeg,png,webp'],
         ];
     }

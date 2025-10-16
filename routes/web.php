@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::prefix('admin')->name('admin.')->group(function (){
     Route::resource('produit', ProduitController::class)->except(['show']);
     Route::resource('type', TypeController::class)->except(['show']);
-    Route::resource('journal', JournalController::class);
+    // Route::resource('journal', JournalController::class);
 });
 
 // Route::delete('admin/produit/{image}', [ProduitController::class, 'destroyImage'])
