@@ -12,8 +12,6 @@ use Illuminate\Routing\Controllers\Middleware;
 use Laravel\Sanctum\PersonalAccessToken;
 
 use App\Models\Vente;
-use Illuminate\Support\Facades\Storage;
-
 class ProduitController extends Controller implements HasMiddleware
 {
 
@@ -71,15 +69,12 @@ class ProduitController extends Controller implements HasMiddleware
             $image = $request->file('image');
             $filename = $image->getClientOriginalName();
             $imageName = time().'-'.uniqid().'_'.$filename;
-            dd( $imageName);
-            $path = 'pictures/produit/'. $request->user_id;
-           
-            $imageS3 = $image->storeAs($path, $imageName,  's3'); 
-            $url = env('AWS_URL') . '/' . $imageS3;
-            
-            // $imageS3 = env('AWS_URL').'/'.$imageS3;
+            // $path = 'pictures/produit/';
+            // $data['image'] = $path.$imageName;
+            $imageS3 = $image->storeAs('pictures/produit/' . $request->user_id, $imageName, 's3'); 
             // dd($imageS3);
-            $data ['image'] = $url; // 👈 Make it publicly accessible
+            $imageS3 = env('AWS_URL').'/'.$imageS3;
+            $data ['image'] = $imageS3 ;// 👈 Make it publicly accessible
         }
         $produit = Produit::create($data);
         return [
