@@ -12,6 +12,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use Laravel\Sanctum\PersonalAccessToken;
 
 use App\Models\Vente;
+use Illuminate\Support\Facades\Storage;
 class ProduitController extends Controller implements HasMiddleware
 {
 
@@ -68,12 +69,11 @@ class ProduitController extends Controller implements HasMiddleware
             
             $image = $request->file('image');
             $filename = $image->getClientOriginalName();
-            $imageName = time().'-'.uniqid().'_'.$filename;
-            // $path = 'pictures/produit/';
-            // $data['image'] = $path.$imageName;
-            $imageS3 = $image->storeAs('pictures/produit/' . $request->user_id, $imageName, 's3'); 
-            // dd($imageS3);
+            $imageName = uniqid().'-'.$filename;
+            
+            $imageS3 = $image->storeAs('pictures/produit/' . $request->user_id, $imageName,  's3'); 
             $imageS3 = env('AWS_URL').'/'.$imageS3;
+            //dd($imageS3);
             $data ['image'] = $imageS3 ;// 👈 Make it publicly accessible
         }
         $produit = Produit::create($data);
@@ -90,11 +90,14 @@ class ProduitController extends Controller implements HasMiddleware
      */
     public function update(ProduitFormRequest $request, Produit $produit)
     {
+        $tokenFromRequest = PersonalAccessToken::findToken($request->bearerToken());
+        $userFromToken = $tokenFromRequest->tokenable_id;
         $data = $request->validated();
-        if (request()->hasFile('image')) {
+        if ($request->hasFile('image')) {
             if($image = $request->file('image')){
                 $filename = $image->getClientOriginalName();
-                $imageName = time().'-'.uniqid().'_'.$filename;
+                // On update if we upload an image verify if it is the same as in the database by ltrim(parse_url($produit->image, PHP_URL_PATH), '/');
+                $imageName = $filename;
                 $path = 'pictures/produit/';
                 $data['image'] = $path.$imageName;
                 // $image->storeAs($path, $imageName, 'public'); 
@@ -104,6 +107,7 @@ class ProduitController extends Controller implements HasMiddleware
         if (File::exists($produit->image)) {
             File::delete($produit->image);
         }
+        $data['user_id'] = $userFromToken;
          $produit->update($data);
         return[
             "produit" => $produit,
@@ -122,19 +126,12 @@ class ProduitController extends Controller implements HasMiddleware
         ];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Produit $produit)
     {
         $vente = Vente::where('produit_id', $produit->id)->first();
         // dd($vente);
         if ($vente != null){
             return ['errMessage' => "Ce produit a une vente"];
-        }
-
-        if (File::exists($produit->image)) {
-            File::delete($produit->image);
         }
         $produit->delete();
         return [
