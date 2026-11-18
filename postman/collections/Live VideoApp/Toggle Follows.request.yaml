@@ -1,0 +1,23 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/follow/56fa4d24-2ddc-497a-b2b0-b86001e76509
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: |
+    //  'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    {
+        // "video_id": "9694d240-999b-4dce-b527-3ee9c6c1a426",
+        // "owner_id": "edecc2ae-4eb5-4581-9424-b42e77c40392",
+        // "user_id": "edecc2ae-4eb5-4581-9424-b42e77c40392"
+    }
+
+        
+    // 
+auth:
+  type: bearer
+  credentials:
+    token: 862|4QhFfGzOym62ZbicicHiOkZztrduss8LIXZQWofqff881064
+settings: {}
+order: 40000

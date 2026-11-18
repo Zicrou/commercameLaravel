@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/mutes?pageNum=1&pageSize=10"
+method: GET
+headers:
+  Content-Type: application/json
+queryParams:
+  pageNum: "1"
+  pageSize: "10"
+body:
+  type: text
+  content: ""
+settings: {}
+order: 3000

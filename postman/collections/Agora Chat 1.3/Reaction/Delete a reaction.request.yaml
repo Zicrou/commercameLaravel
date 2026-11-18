@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/reaction/user/{{username1}}?msgId={{msg_id}}&message={{reaction_message}}"
+method: DELETE
+headers:
+  Content-Type: application/x-www-form-urlencoded
+queryParams:
+  msgId: "{{msg_id}}"
+  message: "{{reaction_message}}"
+settings: {}
+order: 3000

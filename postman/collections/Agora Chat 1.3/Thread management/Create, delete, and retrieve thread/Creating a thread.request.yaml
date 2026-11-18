@@ -1,0 +1,24 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/thread"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "group_id": {{group_id}},
+        "name": "thread test",
+        "msg_id": "{{msg_id}}",
+        "owner": "{{username1}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      var jsonData = JSON.parse(responseBody);
+      var group_id = jsonData.data.groupid;
+      console.log(group_id);
+      pm.collectionVariables.set("group_id", group_id);
+    language: text/javascript
+settings: {}
+order: 1000

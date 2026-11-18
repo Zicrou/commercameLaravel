@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatrooms/{{chatroom_id}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+       "name": "testchatroom",  
+       "description": "test",  
+       "maxusers": 300  
+     }
+settings: {}
+order: 5000

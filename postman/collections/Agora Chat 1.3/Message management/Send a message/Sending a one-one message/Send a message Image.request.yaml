@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/users"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to":["{{username2}}","{{username3}}"],
+        "type":"img",
+        "body":{
+            "filename":"testimg.jpg",
+            "secret":"VfEpSmSvEeS7yU8dwa9rAQc-DIL2HhmpujTNfSTsrDt6eNb_",
+            "url":"https://chat.agora.io",
+            "size":{
+                "width":480,"height":720
+            }
+        }
+    }
+settings: {}
+order: 2000

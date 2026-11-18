@@ -50,7 +50,6 @@ class JournalController extends Controller
             }
             
         }
-        //dd( $journal[$date]['depenses']);
         // $vents_year = Vente::where('statut', 1)->get();
         $ventes_year = $vents->groupBy(function($m) {
             return $m->created_at->format('Y');

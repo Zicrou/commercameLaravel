@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/notification/template/{{push_template_name}}"
+method: DELETE
+headers:
+  Content-Type: application/json
+settings: {}
+order: 9000

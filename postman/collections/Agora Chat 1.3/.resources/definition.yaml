@@ -1,0 +1,65 @@
+$kind: collection
+description: |-
+  # Agora Chat RESTful API Overview
+
+  Agora Chat provides RESTful APIs through the REST platform. You can send HTTP requests to the Agora server through your business server to realize real-time communication on the server side.
+
+  ## REST Platform Architecture
+
+  The Agora Chat REST platform provides a multi-tenant architecture to manage resources in the form of a Collection. A Collection contains the following:
+
+  - Database
+  - Organizations (orgs)
+  - Apps (apps)
+  - Users (users)
+  - Chat groups (chatgroups)
+  - Chat messages (chatmessages)
+  - Chat files (chatfiles)
+      
+
+  The user data of different orgs is isolated from each other. Under the same org, the user data of different apps is also isolated from each other. The data structure of an org is as follows:
+
+  <img src="https://content.pstmn.io/bdad405a-b8f5-441d-a479-b7e2bf486f53/YWdvcmFfY2hhdF9vdmVydmlldy5wbmc=">
+
+  ## Prerequisites
+
+  Ensure that you meet the following requirements before calling the Agora Chat RESTful API:
+
+  - You have [enabled and configured Agora Chat in the Console](https://docs.agora.io/en/agora-chat/enable_agora_chat?platform=RESTful).
+  - You have retrieved an app token from the app server. For details, see [Authentication with App Token](https://docs.agora.io/en/agora-chat/generate_app_tokens?platform=RESTful).
+variables:
+  request_url: fill_in.chat.agora.io
+  org_name: fill_in
+  app_name: fill_in
+  username1: fill_in
+  nickname1: fill_in
+  username2: fill_in
+  nickname2: fill_in
+  username3: fill_in
+  nickname3: fill_in
+  chatToken: fill_in
+  group_id: fill_in
+  file_id: fill_in
+  file_uuid: fill_in
+  share_secret: fill_in
+  chatroom_id: fill_in
+  superAdmin: fill_in
+  cursor: fill_in
+  msg_id: fill_in
+  thread_id: fill_in
+  chat_type: fill_in
+  push_template_name: fill_in
+  push_label_name: fill_in
+  presence_resource: fill_in
+  presence_expiry: fill_in
+  presence_user_status: fill_in
+  reaction_message_type: fill_in
+  reaction_message: fill_in
+  time: fill_in
+  limit: fill_in
+auth:
+  - id: f3a7ae26-09d7-4246-8ab1-be8e44607b1b
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{chatToken}}"

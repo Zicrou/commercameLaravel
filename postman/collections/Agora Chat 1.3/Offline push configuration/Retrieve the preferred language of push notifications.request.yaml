@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/notification/language"
+method: GET
+headers:
+  Content-Type: application/json
+settings: {}
+order: 6000

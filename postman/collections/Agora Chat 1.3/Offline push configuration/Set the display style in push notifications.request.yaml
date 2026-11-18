@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "notification_display_style": 1
+    }
+settings: {}
+order: 2000

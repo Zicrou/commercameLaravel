@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatfiles"
+method: POST
+headers:
+  restrict-access: "true"
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src: xRbQYiHOk/filename.png
+      description: select a file from your machine
+settings: {}
+order: 1000

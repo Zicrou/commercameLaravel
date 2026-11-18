@@ -1,0 +1,21 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/likeUnlike/replies
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: |
+    //  'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    {
+        "reply_id": "3d7ec219-51b8-4318-8fe7-59852d6d896e"
+    }
+
+        
+    // 
+auth:
+  type: bearer
+  credentials:
+    token: 754|gRXuijqJ5SCD84Q5BCRwsxytfgurGM4pJDLdE3Sga8769f44
+settings: {}
+order: 35000

@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/push/list/label"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "targets": [
+            "{{username1}}"
+        ],
+        "strategy": 2,
+        "pushMessage": {
+            "title": "Agora PUSH",
+            "content": "Welcome to Agora Push Service",
+            "sub_title": "Agora"
+        }
+    }
+settings: {}
+order: 2000

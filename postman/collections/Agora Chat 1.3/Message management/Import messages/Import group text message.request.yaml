@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatgroups/import"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "target": "{{group_id}}",
+        "type": "txt",
+        "body": {
+            "msg": "import message."
+        },
+        "from": "{{username2}}",
+        "is_ack_read": true,
+        "msg_timestamp": 1656906628428
+    }
+settings: {}
+order: 3000

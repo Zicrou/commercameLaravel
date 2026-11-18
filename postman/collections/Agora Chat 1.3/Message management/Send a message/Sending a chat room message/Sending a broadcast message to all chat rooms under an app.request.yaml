@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/broadcast"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "msg": {
+            "type": "txt",
+            "msg": "send broadcast to all chatroom"
+        },
+        "from": "admin",
+        "ext": {
+            "extKey": "extValue"
+        },
+        "chatroom_msg_level": "low"
+    }
+settings: {}
+order: 9000

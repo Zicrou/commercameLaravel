@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatgroups/{{group_id}}/share_files"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src: REBVuc7tD/filename.png
+scripts:
+  - type: afterResponse
+    code: |-
+      var jsonData = JSON.parse(responseBody);
+      var file_id = jsonData.data.file_id;
+      console.log(file_id);   
+      pm.collectionVariables.set("file_id", file_id);
+    language: text/javascript
+settings: {}
+order: 4000

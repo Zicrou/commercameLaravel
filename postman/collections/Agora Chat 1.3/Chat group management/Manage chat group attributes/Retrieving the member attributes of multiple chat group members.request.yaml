@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/metadata/chatgroup/{{group_id}}/get"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "targets": ["{{username2}}", "{{username3}}"],
+        "properties": ["group_nickname"]
+     }
+settings: {}
+order: 3000

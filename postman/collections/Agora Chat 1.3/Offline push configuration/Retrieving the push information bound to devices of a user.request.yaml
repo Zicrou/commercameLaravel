@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/push/binding"
+method: GET
+settings: {}
+order: 11000

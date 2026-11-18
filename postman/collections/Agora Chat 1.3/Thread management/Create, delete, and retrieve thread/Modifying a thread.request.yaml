@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/thread/{{thread_id}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "name": "thread name"
+    }
+settings: {}
+order: 2000

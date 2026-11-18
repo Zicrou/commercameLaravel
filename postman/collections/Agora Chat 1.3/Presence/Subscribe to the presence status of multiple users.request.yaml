@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/presence/{{presence_expiry}}"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "usernames": ["{{username2}}","{{username3}}"]
+    }
+settings: {}
+order: 2000

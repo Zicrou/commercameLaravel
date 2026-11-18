@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatrooms/{{chatroom_id}}/admin"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: '{"newadmin":"{{username2}}"}'
+settings: {}
+order: 6000

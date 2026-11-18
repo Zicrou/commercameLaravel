@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/users"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+    	"from": "{{username1}}",
+        "to": ["{{username2}}","{{username3}}"],
+        "type": "txt",
+    	"body": {
+            "type": "txt",
+            "msg": "testmessage"
+        }	
+    }
+settings: {}
+order: 1000

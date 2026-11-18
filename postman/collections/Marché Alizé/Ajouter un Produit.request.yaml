@@ -1,0 +1,40 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/produits
+method: POST
+headers:
+  - key: Accept
+    value: application/json
+    $type: |-
+      {
+        "type": "",
+        "format": "",
+        "required": false,
+        "deprecated": false,
+        "default": "",
+        "enum": [],
+        "pattern": "",
+        "minLength": "",
+        "maxLength": "",
+        "minItems": "",
+        "maxItems": "",
+        "minimum": "",
+        "maximum": "",
+        "uniqueItems": false
+      }
+body:
+  type: json
+  content: |
+    // Ajoutrer un Produit
+    {
+        "designation" : "Machine B",
+        "montant" : 50000000,
+        "nombre" : 5,
+        "user_id" : 1,
+        "image" : "/Users/abdouaziz/Downloads/Laptop-computer.jpg.webp"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: 122|wu5mSkXcJZkTozVGqCVSX3TD0XIaSWn93GEaF8Ff2cd318f6
+settings: {}
+order: 5000

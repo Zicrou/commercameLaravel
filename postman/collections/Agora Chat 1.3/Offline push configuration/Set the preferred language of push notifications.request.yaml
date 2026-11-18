@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/notification/language"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "translationLanguage":"EU"
+    }
+settings: {}
+order: 5000

@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/metadata/user/get"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "properties": [
+        "avatar",
+        "ext",
+        "nickname"
+      ],
+      "targets": [
+        "{{username1}}",
+        "{{username2}}"
+      ]
+    }
+settings: {}
+order: 3000

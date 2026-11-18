@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/rewrite/{{msg_id}}"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "user": "{{username1}}",
+      "new_msg": { 
+        "type": "txt",
+        "msg": "update message content"
+      }
+    }
+settings: {}
+order: 7000

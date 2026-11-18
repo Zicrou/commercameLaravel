@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/departements
+method: GET
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: 2|kLzSXeoX4SEXZGFvYNk94ogJgHB2hKvOQgyq4NUUcbc13ac5
+settings: {}
+order: 42000

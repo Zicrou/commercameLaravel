@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatrooms"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to": ["{{chatroom_id}}"],
+        "type":"file",
+        "body":{
+            "filename" : "testfile.txt",
+            "secret":"VfEpSmSvEeS7yU8dwa9rAQc-DIL2HhmpujTNfSTsrDt6eNb_",
+            "url" : "https://chat.agora.io"
+        }
+    }
+settings: {}
+order: 5000

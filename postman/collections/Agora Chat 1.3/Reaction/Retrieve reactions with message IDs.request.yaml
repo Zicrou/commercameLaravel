@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/reaction/user/{{username1}}?msgIdList={{msg_id}}&msgType={{reaction_message_type}}&groupId={{group_id}}"
+method: GET
+headers:
+  Content-Type: application/x-www-form-urlencoded
+queryParams:
+  msgIdList: "{{msg_id}}"
+  msgType: "{{reaction_message_type}}"
+  groupId: "{{group_id}}"
+settings: {}
+order: 2000

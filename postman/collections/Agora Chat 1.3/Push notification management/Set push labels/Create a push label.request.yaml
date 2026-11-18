@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/push/label"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "name":"{{push_label_name}}",
+        "description":"hi"
+    }
+settings: {}
+order: 1000

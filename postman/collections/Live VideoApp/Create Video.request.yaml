@@ -1,0 +1,24 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/posts
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: |
+    //  'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    {
+        "post_type": "video",
+        "caption": "This is some text for the caption",
+        "video_url": "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+        "is_liked":
+    }
+
+        
+    // 
+auth:
+  type: bearer
+  credentials:
+    token: 41|i3aEze73jY0hi7NJpXhBtOaUDZ37TZ6ZGbnqhU8d6f6e43d1
+settings: {}
+order: 32000

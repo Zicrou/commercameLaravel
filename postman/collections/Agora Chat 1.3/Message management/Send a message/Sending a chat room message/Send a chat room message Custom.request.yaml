@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatrooms"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to": ["{{chatroom_id}}"],
+        "type":"custom",
+        "body":{
+            "customEvent":"gift_1", 
+            "customExts":{
+                "name":"flower",
+                "size":"16",
+                "price":"100"
+            }
+        }, 
+        "ext":{
+            "attr1":"test"
+        }
+    }
+settings: {}
+order: 8000

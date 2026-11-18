@@ -1,0 +1,15 @@
+$kind: http-request
+name: Create/Add a reaction
+url: "{{request_url}}/{{org_name}}/{{app_name}}/reaction/user/{{username1}}"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "msgId":"{{msg_id}}",
+        "message":"{{reaction_message}}"
+    }
+settings: {}
+order: 1000

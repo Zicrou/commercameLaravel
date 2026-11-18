@@ -1,0 +1,12 @@
+$kind: http-request
+url: https://api.agora.io/dev/v1/project_status
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "id": "{{id}}", //remove this or this won't run. check which project you are running this on in the id variable
+        "status": 1 //remove this or this won't run. 0 for disable, 1 for enable
+    }
+settings: {}
+order: 14000

@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/thread/{{thread_id}}/users"
+method: DELETE
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "usernames": ["{{username1}}, {{username2}}"]
+    }
+settings: {}
+order: 3000

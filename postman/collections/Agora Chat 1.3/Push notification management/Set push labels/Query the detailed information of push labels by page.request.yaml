@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/push/label"
+method: GET
+headers:
+  Content-Type: application/json
+settings: {}
+order: 3000

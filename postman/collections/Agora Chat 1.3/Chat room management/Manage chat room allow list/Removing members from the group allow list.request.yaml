@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatrooms/{{chatroom_id}}/white/users/{{username2}},{{username3}}"
+method: DELETE
+headers:
+  Accept: application/json
+settings: {}
+order: 4000

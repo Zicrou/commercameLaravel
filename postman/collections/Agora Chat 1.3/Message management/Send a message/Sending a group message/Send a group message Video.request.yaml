@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatgroups"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to": ["{{group_id}}"],
+        "type":"video",
+        "body":{
+            "filename" : "testvideo.mp4",
+            "thumb" : "https://chat.agora.io",
+            "length" : 0,"secret":"VfEpSmSvEeS7yU8dwa9rAQc-DIL2HhmpujTNfSTsrDt6eNb_",
+            "file_length" : 58103,
+            "thumb_secret" : "ZyebKn9pEeSSfY03ROk7ND24zUf74s7HpPN1oMV-1JxN2O2I",
+            "url" : "https://chat.agora.io"
+        }
+    }
+settings: {}
+order: 4000

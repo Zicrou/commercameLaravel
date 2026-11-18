@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatgroups/{{group_id}}/mute"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: '{"usernames":["{{username2}}","{{username3}}"], "mute_duration":86400000}'
+settings: {}
+order: 1000

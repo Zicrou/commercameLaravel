@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatrooms"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to": ["{{chatroom_id}}"],
+        "type":"audio",
+        "body":{
+            "url": "https://chat.agora.io",
+            "filename": "testaudio.amr",
+            "length": 10,
+            "secret": "Hfx_WlXGEeSdDW-SuX2EaZcXDC7ZEig3OgKZye9IzKOwoCjM"
+        }
+    }
+settings: {}
+order: 3000

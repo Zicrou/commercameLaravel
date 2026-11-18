@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users?limit=100&cursor="
+method: GET
+headers:
+  Content-Type: application/json
+queryParams:
+  limit: "100"
+  cursor: ""
+settings: {}
+order: 4000

@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatgroups/import"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "target": "{{group_id}}",
+        "type": "img",
+        "body": {
+            "url": "<YourImageUrl>",
+            "filename": "<ImageFileName>",
+            "size": {
+                "width": 1080,
+                "height": 1920
+            }
+        },
+        "from": "{{username1}}",
+        "is_ack_read": true,
+        "msg_timestamp": 1656906628428,
+        "need_download": true
+    }
+settings: {}
+order: 4000

@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/presence/sublist?pageNum=1&pageSize=100"
+method: GET
+headers:
+  Content-Type: application/json
+queryParams:
+  pageNum: "1"
+  pageSize: "100"
+body:
+  type: json
+  content: ""
+settings: {}
+order: 5000

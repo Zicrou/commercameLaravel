@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/presence"
+method: DELETE
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: '["{{username2}}","{{username3}}"]'
+settings: {}
+order: 4000

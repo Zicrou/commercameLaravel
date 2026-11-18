@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/push/single"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "targets": [
+            "{{username1}}"
+        ],
+        "pushMessage": {
+            "title": "Hello",
+            "subTitle": "Hello",
+            "content": "Hello",
+            "vivo": {
+
+            }
+        }
+    }
+settings: {}
+order: 1000

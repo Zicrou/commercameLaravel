@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/users"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to":["{{username2}}","{{username3}}"],
+        "type":"custom",
+        "body":{
+            "customEvent":"gift_1", 
+            "customExts":{
+                "name":"flower",
+                "size":"16",
+                "price":"100"
+            }
+        }, 
+        "ext":{
+            "attr1":"test"
+        }
+    }
+settings: {}
+order: 8000

@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatgroups/{{group_id}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+       "groupname": "testgroup1",  
+       "description": "test",  
+       "maxusers": 300,
+       "membersonly": true,
+       "allowinvites": true
+     }
+settings: {}
+order: 5000

@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/thread"
+method: GET
+headers:
+  Content-Type: application/json
+queryParams:
+  - key: limit
+    value: The range is [1, 50]
+    disabled: true
+  - key: cursor
+    value: The page from which to start retrieving threads. Pass in null or an empty string at the first query
+    disabled: true
+  - key: sort
+    value: |-
+      The order in which to list the query results:
+      asc: In chronological order of thread creation.
+      (Default) desc: In reverse chronological order of thread creation.
+    disabled: true
+settings: {}
+order: 4000

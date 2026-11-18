@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/batch/status"
+method: POST
+body:
+  type: json
+  content: '{"usernames":["{{username1}}","{{username2}}"]}'
+settings: {}
+order: 12000

@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/push/label/{{push_label_name}}/user"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "usernames": ["{{username2}}"]
+    }
+settings: {}
+order: 5000

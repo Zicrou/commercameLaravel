@@ -1,0 +1,35 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/ouvriers
+method: POST
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+    "name" = "Abdou Aziz";
+    "country_id" = "55f12656-637b-4741-a6b8-00965a2821b6";
+    "region_id" = "e4976c9c-fb99-4a6e-aab9-4f9bb28ea4ee";
+    "departement_id" = "5841e4d6-447f-4015-ac1a-15b3b7573523";
+    "metiers" = "7453fc54-d57a-4857-a3db-9e0931366b87";
+    "domaines" = "f47431f7-dec2-4db8-8d55-36cb11ba70ee";
+    "date_of_birth" = 2026-06-22;
+    "photo" =;
+    "phone_number" = "787878787";
+    "email" = "aazseck@gmail.com";
+    "address" = "Zac mbao";
+    "phone_number_2" = "787878788";
+    "photo_cni" =;
+    "numero_cni" =;
+    "annees_experience" = 1;
+    "user_id" = "5a4e38d6-0974-4116-bee5-29a1ee6f881d";
+    "images" =;
+    "diplomes" = "dad66d87-8991-4e4d-868b-0a017676a3e4";
+    "entreprises" = "Vibes 3"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: 2|kLzSXeoX4SEXZGFvYNk94ogJgHB2hKvOQgyq4NUUcbc13ac5
+settings: {}
+order: 29000

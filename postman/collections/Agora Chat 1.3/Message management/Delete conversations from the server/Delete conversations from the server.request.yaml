@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/user_channel"
+method: DELETE
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "channel": "{{username1}}",
+        "type": "chat",
+        "delete_roam": true
+    }
+settings: {}
+order: 1000

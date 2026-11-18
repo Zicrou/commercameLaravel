@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatrooms"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to": ["{{chatroom_id}}"],
+        "type":"loc",
+        "body":{
+            "lat": "37.391330",
+            "lng":"-121.977910",
+            "addr":"2804 Mission College Blvd, Santa Clara, CA 95054"
+        }
+    }
+settings: {}
+order: 6000

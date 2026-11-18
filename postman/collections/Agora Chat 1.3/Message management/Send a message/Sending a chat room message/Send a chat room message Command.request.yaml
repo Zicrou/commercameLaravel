@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/chatrooms"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "from":"{{username1}}",
+        "to": ["{{chatroom_id}}"],
+        "type":"cmd",
+        "body":{
+            "action":"action1"
+        }
+    }
+settings: {}
+order: 7000

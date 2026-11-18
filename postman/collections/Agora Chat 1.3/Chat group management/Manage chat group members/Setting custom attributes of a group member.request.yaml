@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/metadata/chatgroup/{{group_id}}/user/{{username1}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+       "metaData": {
+              "key1": "value1"
+        }  
+     }
+settings: {}
+order: 7000

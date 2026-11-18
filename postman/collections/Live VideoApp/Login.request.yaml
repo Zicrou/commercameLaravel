@@ -1,0 +1,8 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/login
+method: GET
+body:
+  type: text
+  content: ""
+settings: {}
+order: 2000

@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatfiles/{{file_uuid}}"
+method: GET
+headers:
+  - key: Accept
+    value: application/octet-stream
+  - key: share-secret
+    value: "{{share_secret}}"
+    description: optional in restrict-access is set to true
+settings: {}
+order: 2000

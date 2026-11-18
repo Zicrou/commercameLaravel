@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatrooms/{{chatroom_id}}/blocks/users"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+       "usernames": [  
+         "{{username2}}","{{username3}}"  
+       ]  
+     }
+settings: {}
+order: 3000

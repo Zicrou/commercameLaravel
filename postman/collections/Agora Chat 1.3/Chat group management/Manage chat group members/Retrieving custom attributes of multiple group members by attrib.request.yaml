@@ -1,0 +1,15 @@
+$kind: http-request
+name: Retrieving custom attributes of multiple group members by attribute key
+url: "{{request_url}}/{{org_name}}/{{app_name}}/metadata/chatgroup/{{group_id}}/get"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "targets":["{{username1}}"],
+        "properties":["key1"]
+    }
+settings: {}
+order: 9000

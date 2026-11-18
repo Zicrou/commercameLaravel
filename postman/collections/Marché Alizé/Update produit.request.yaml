@@ -1,0 +1,32 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/ventes/3
+method: PUT
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    
+    // Modifier une vente avec Produit Id(Dans le stock).
+    // {
+    //     "nombre" : 3,
+    //     "prix" : 200000,
+    //     "user_id" : 1,
+    //     "produit_id" : 1,
+    //     "types" : 1
+    // }
+
+    // Modifier une vente avec Designation.
+    {
+        "nombre" : 3,
+        "prix" : 200000,
+        "user_id" : 1,
+        "designation" : "MacBook Air Pro 2 updated",
+        "type_id" : 1
+    }
+auth:
+  type: bearer
+  credentials:
+    token: 2|x51mx0gBihSYaTjxQcAjbwQHkjuOoIr8xIgYIaGH965573b7
+settings: {}
+order: 21000

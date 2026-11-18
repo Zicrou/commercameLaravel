@@ -1,0 +1,15 @@
+$kind: http-request
+url: 123// {//     "token" : "10|BIslgWHdd2J2hXcDtteORDg0MYcD1In5XymEcwe324cbdf5f"// } ⌃⌥P for Postbot
+method: GET
+body:
+  type: json
+  content: |-
+    // {
+    //     "token" : "10|BIslgWHdd2J2hXcDtteORDg0MYcD1In5XymEcwe324cbdf5f"
+    // }
+auth:
+  type: bearer
+  credentials:
+    token: 8|h3Crf1yURjh2P5dUCtJVutTNgwEOALUbVfJEhzb239d6aa24
+settings: {}
+order: 13000

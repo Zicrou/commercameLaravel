@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/push/binding"
+method: PUT
+body:
+  type: json
+  content: |-
+    {    
+        "device_id": "8ce08cad-XXXX-XXXX-86c8-695a0d247cda",    
+        "device_token": "XXXX",    
+        "notifier_name": "104410638"
+    }
+settings: {}
+order: 10000

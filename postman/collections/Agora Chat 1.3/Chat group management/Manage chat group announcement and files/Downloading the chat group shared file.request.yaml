@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatgroups/{{group_id}}/share_files/{{file_id}}"
+method: GET
+headers:
+  Accept: application/json
+settings: {}
+order: 5000

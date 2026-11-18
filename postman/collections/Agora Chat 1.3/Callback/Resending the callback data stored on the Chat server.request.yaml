@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/callbacks/storage/retry"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "date": "202108272230",
+        "retry": 0,
+        "targetUrl": "https://localhost:8000/test"
+    }
+settings: {}
+order: 2000

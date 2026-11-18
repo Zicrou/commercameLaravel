@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatgroups"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+       "groupname": "testgroup1",  
+       "desc": "test",  
+       "public": true,  
+       "maxusers": 300,  
+       "owner": "{{username1}}",  
+       "members": [  
+         "{{username2}}"  
+       ]  
+     }
+settings: {}
+order: 1000

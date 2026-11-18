@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/offline_msg_status/{{msg_id}}"
+method: GET
+headers:
+  Content-Type: application/json
+settings: {}
+order: 14000

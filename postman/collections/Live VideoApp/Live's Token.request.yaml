@@ -1,0 +1,12 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/livesToken/1/token
+method: GET
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: 3|vmtZvv6T9y29HELGuueLisrty36gdypMsvBtlCLe557c0a39
+settings: {}
+order: 10000

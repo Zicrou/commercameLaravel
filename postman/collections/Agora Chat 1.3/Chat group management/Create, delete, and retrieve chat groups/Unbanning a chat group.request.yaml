@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatgroups/{{group_id}}/enable"
+method: POST
+headers:
+  Content-Type: application/json
+settings: {}
+order: 3000

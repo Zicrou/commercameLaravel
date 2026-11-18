@@ -1,0 +1,5 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/V1/profile/49efa01f-b027-4c20-928f-d11c82467ce3/saved
+method: GET
+settings: {}
+order: 19000

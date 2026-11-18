@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/push/task"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "pushMessage": {
+            "title": "Hello1234",
+            "subTitle": "Hello",
+            "content": "Hello",
+            "vivo": {}
+        }
+    }
+settings: {}
+order: 3000

@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/metadata/chatgroup/{{group_id}}/user/{{username1}}"
+method: GET
+headers:
+  Content-Type: application/json
+settings: {}
+order: 8000

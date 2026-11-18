@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/chatrooms/super_admin?pagenum=1&pagesize=10"
+method: GET
+headers:
+  Content-Type: application/json
+queryParams:
+  pagenum: "1"
+  pagesize: "10"
+scripts:
+  - type: afterResponse
+    code: |-
+      var jsonData = JSON.parse(responseBody);
+      var superAdmin = jsonData.data.id;
+      console.log(superAdmin);   
+      pm.collectionVariables.set("superAdmin", superAdmin);
+    language: text/javascript
+settings: {}
+order: 3000

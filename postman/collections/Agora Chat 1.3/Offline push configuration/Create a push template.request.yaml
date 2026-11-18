@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/notification/template"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {  
+        "name": "{{push_template_name}}",
+        "title_pattern": "hello,{0}",
+        "content_pattern": "push test,{0}"
+    }
+settings: {}
+order: 7000

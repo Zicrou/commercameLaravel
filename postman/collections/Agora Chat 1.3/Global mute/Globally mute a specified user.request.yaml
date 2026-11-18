@@ -1,0 +1,16 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/mutes"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "username": "{{username1}}",
+        "chat": 100,
+        "groupchat": 100,
+        "chatroom": 100
+    }
+settings: {}
+order: 1000

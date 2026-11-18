@@ -1,0 +1,8 @@
+$kind: http-request
+name: Query the detailed information of users under the specified push label by page
+url: "{{request_url}}/{{org_name}}/{{app_name}}/push/label/{{push_label_name}}/user"
+method: GET
+headers:
+  Content-Type: application/json
+settings: {}
+order: 7000

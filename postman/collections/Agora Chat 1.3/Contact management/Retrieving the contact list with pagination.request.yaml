@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/users/{{username1}}/contacts?limit={{limit}}&cursor={{cursor}}&needReturnRemark={true/false}"
+method: GET
+queryParams:
+  limit: "{{limit}}"
+  cursor: "{{cursor}}"
+  needReturnRemark: "{true/false}"
+settings: {}
+order: 7000

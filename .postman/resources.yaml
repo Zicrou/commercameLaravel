@@ -1,0 +1,14 @@
+workspace:
+  id: 61944888-c113-47ab-881a-a376465b9159
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/Live VideoApp: 26944163-fa983154-6519-4ec1-8345-ae02a6220bb2
+    ../postman/collections/Ciilaabokk Ouvrier User: 26944163-38639d46-a827-4f20-860c-03dd53dfb0ca
+    ../postman/collections/Logistics: 26944163-8978b2c3-ec34-4918-b36b-cfd1c714f8fa
+    ../postman/collections/Cloud VideoApp: 26944163-2c727bc2-5f76-4859-bc09-3de27390c995
+    ../postman/collections/Agora Chat 1.3: 26944163-0c114004-a422-4ebf-b39c-3fbcff232718
+    ../postman/collections/POSTMAN TUTORIALS: 26944163-9e5d2734-5809-4c29-9a82-cbe05fa1e280
+    ../postman/collections/Marché Alizé: 26944163-cd45109f-6b78-455e-b1e7-f8d3e79d0c1e

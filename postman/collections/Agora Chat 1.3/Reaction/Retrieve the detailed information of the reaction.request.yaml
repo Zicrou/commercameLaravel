@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/reaction/user/{{username1}}/detail?msgId={{msg_id}}&message={{reaction_message}}&limit=10&cursor="
+method: GET
+headers:
+  Content-Type: application/x-www-form-urlencoded
+queryParams:
+  msgId: "{{msg_id}}"
+  message: "{{reaction_message}}"
+  limit: "10"
+  cursor: ""
+settings: {}
+order: 4000

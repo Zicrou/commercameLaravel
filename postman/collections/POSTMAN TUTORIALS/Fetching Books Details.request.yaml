@@ -1,0 +1,26 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/ventes
+method: POST
+headers:
+  Accept: application/json
+queryParams:
+  - key: ""
+    value: null
+    disabled: true
+body:
+  type: json
+  content: |-
+    {
+        "nombre" : 3,
+        "prix" : 200000,
+        "user_id" : 2,
+        "designation" : "MacBook Air Pro 2",
+        "types" : 1
+    }
+auth:
+  type: bearer
+  credentials:
+    token: 7|0WJFogGIye0ZuSyTnVCVl1qheVKcFW1dBroGh2ru99dcdc68
+settings:
+  disabledSystemHeaders: []
+order: 1000

@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/callbacks/storage/info"
+method: GET
+settings: {}
+order: 1000

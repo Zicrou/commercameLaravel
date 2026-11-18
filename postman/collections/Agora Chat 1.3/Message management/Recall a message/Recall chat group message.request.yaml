@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{request_url}}/{{org_name}}/{{app_name}}/messages/msg_recall"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "msg_id": "{{msg_id}}",
+        "chat_type": "groupchat",
+        "from": "{{username1}}",
+        "to": "{{group_id}}",
+        "force": true
+    }
+settings: {}
+order: 2000
